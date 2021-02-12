@@ -1,0 +1,277 @@
+.search-input {
+  font-size: 2rem;
+  height: 3.5rem;
+  font-weight: 700;
+  color: #666;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid #dc3545;
+  caret-color: #dc3545;
+  -webkit-transition-duration: 0.3s;
+          transition-duration: 0.3s;
+}
+
+.search-input:focus {
+  border-bottom: 3px solid #dc3545;
+  outline: none;
+  color: #dc3545;
+}
+
+.search-button {
+  width: 100%;
+}
+
+.search-button svg {
+  fill: #ffffff;
+}
+
+.card-container {
+  height: 340px;
+  overflow-x: auto;
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.card-container::-webkit-scrollbar {
+  height: .5em;
+}
+
+.card-container::-webkit-scrollbar-track {
+  background-color: #222222;
+}
+
+.card-container::-webkit-scrollbar-thumb {
+  background-color: crimson;
+  border-radius: .25rem;
+}
+
+.title-card {
+  width: 210px;
+  height: 295px;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  cursor: pointer;
+  -ms-flex-negative: 0;
+      flex-shrink: 0;
+}
+
+.title-card.favorite {
+  border: .25em solid;
+  -o-border-image: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C) 1 round;
+     border-image: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C) 1 round;
+  -webkit-box-shadow: 0 0 5px 2px #fadc559f;
+          box-shadow: 0 0 5px 2px #fadc559f;
+}
+
+.title-card-overlay {
+  padding: .5rem;
+  opacity: 0;
+  -webkit-transition-duration: .15s;
+          transition-duration: .15s;
+  background-color: transparent;
+  width: 100%;
+  height: 100%;
+}
+
+.title-card-overlay:hover {
+  opacity: 1;
+  background-color: #000000aa;
+}
+
+.title-card-overlay .favorite-button {
+  width: 24px;
+  height: 24px;
+  background: none;
+  border: none;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+}
+
+.title-card-overlay .favorite-button svg {
+  fill: #ebc64d;
+}
+
+.title-card-overlay .favorite-button:hover svg {
+  fill: #a07f14;
+}
+
+@media screen and (max-width: 576px) {
+  .search-result {
+    width: 130px;
+    height: 185px;
+  }
+  .search-result p {
+    font-size: 1em;
+    font-weight: bold;
+  }
+  .search-result .card-buttons {
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    height: 50%;
+  }
+}
+
+.modal-content {
+  background-color: #111111;
+}
+
+.modal-content .modal-header button {
+  color: #ff3985;
+}
+
+.modal-content .modal-body {
+  max-height: 50vh;
+  overflow: auto;
+}
+
+.modal-content ::-webkit-scrollbar {
+  width: 10px;
+}
+
+.modal-content ::-webkit-scrollbar-track {
+  background: #000000aa;
+}
+
+.modal-content ::-webkit-scrollbar-thumb {
+  background: #222222;
+}
+
+.modal-content ::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+.billboard {
+  height: 50vh;
+  background-repeat: no-repeat;
+  background-position-x: right;
+  border-radius: .25rem;
+}
+
+.billboard .info {
+  overflow: auto;
+  height: 100%;
+  background-color: #111111;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+}
+
+.billboard .info .name.favorite {
+  -webkit-animation: shimmer 5s linear infinite alternate;
+          animation: shimmer 5s linear infinite alternate;
+  background: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #BF953F);
+  background-size: 400% 100%;
+  text-shadow: 0 0 8px #BF953Faa;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.billboard .info .summary {
+  max-height: 50%;
+  display: -webkit-box;
+  -webkit-line-clamp: 6;
+  -webkit-box-orient: vertical;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-transition-duration: .3s;
+          transition-duration: .3s;
+  margin-bottom: 2rem;
+}
+
+.billboard ::-webkit-scrollbar {
+  width: 5px;
+}
+
+.billboard ::-webkit-scrollbar-track {
+  background: #000000aa;
+}
+
+.billboard ::-webkit-scrollbar-thumb {
+  background: #222222;
+}
+
+.billboard ::-webkit-scrollbar-thumb:hover {
+  background: #333333;
+}
+
+.billboard .image-fader {
+  height: 100%;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-image: -webkit-gradient(linear, left top, right top, color-stop(10%, #111111), color-stop(30%, transparent));
+  background-image: linear-gradient(90deg, #111111 10%, transparent 30%);
+}
+
+@media screen and (max-width: 576px) {
+  .billboard {
+    background: none !important;
+  }
+  .billboard .image-fader {
+    display: none;
+  }
+}
+
+@-webkit-keyframes shimmer {
+  0% {
+    background-position-x: -500px;
+  }
+  100% {
+    background-position-x: 500px;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position-x: -500px;
+  }
+  100% {
+    background-position-x: 500px;
+  }
+}
+
+.navbar {
+  background-color: #111111aa;
+  -webkit-backdrop-filter: blur(5px);
+          backdrop-filter: blur(5px);
+  z-index: 9999;
+}
+
+.landing-container {
+  display: -ms-grid;
+  display: grid;
+  min-height: 75vh;
+}
+
+.landing-container .row {
+  place-self: center;
+  width: 100%;
+}
+
+.landing-container .row .main-logo {
+  width: clamp(50vw, 75%, 75vw);
+  height: auto;
+  -ms-flex-item-align: center;
+      -ms-grid-row-align: center;
+      align-self: center;
+}
+
+.auth-form {
+  max-width: clamp(25vw, 300px, 400px);
+  margin: 0 auto;
+  padding: 4rem 0;
+}
+
+body {
+  background-color: #111111;
+  color: #fafafa;
+  height: 100vh;
+}
+/*# sourceMappingURL=main.css.map */

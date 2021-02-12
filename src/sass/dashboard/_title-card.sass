@@ -1,0 +1,63 @@
+.card-container
+    height: 340px
+    overflow-x: auto
+    width: 100%
+    display: flex
+    align-items: center
+    &::-webkit-scrollbar
+        height: .5em
+
+    &::-webkit-scrollbar-track
+        background-color: #222222
+
+    &::-webkit-scrollbar-thumb
+        background-color: crimson
+
+        border-radius: .25rem
+
+.title-card
+    width: 210px
+    height: 295px
+    background-size: cover
+    background-repeat: no-repeat
+    background-position: center
+    cursor: pointer
+    flex-shrink: 0
+    &.favorite
+        border: .25em solid
+        border-image: linear-gradient(135deg, #BF953F, #FCF6BA, #B38728, #FBF5B7, #AA771C) 1 round
+        box-shadow: 0 0 5px 2px #fadc559f
+    &-overlay
+        padding: .5rem
+        opacity: 0
+        transition-duration: .15s
+        background-color: transparent
+        width: 100%
+        height: 100%
+        &:hover
+            opacity: 1
+            background-color: #000000aa
+        .favorite-button
+            width: 24px
+            height: 24px
+            background: none
+            border: none
+            position: absolute
+            top: 1em
+            right: 1em
+            svg
+                fill: #ebc64d
+            &:hover
+                svg
+                    fill: #a07f14
+
+@media screen and ( max-width: 576px  )
+    .search-result
+        width: 130px
+        height: 185px
+        p
+            font-size: 1em
+            font-weight: bold
+        .card-buttons
+            flex-direction: column
+            height: 50%
