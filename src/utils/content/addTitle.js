@@ -3,7 +3,7 @@ import makeRequest from "../general/makeRequest";
 export const addTitle = async (data) => {
   // fetch the related images for this title, since the tvmaze API
   // only returns the poster when searching
-  const imgUrl = `http://api.tvmaze.com/shows/${data.title.id}/images`;
+  const imgUrl = `https://api.tvmaze.com/shows/${data.title.id}/images`;
   const images = await fetch(imgUrl)
     .then((response) => {
       return response.json();
