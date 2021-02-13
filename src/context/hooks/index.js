@@ -1,5 +1,3 @@
-import useCurrentView from "./useCurrentView";
-
 export { useBillboardTitle } from "./useBillboardTitle";
 export { useCurrentView } from "./useCurrentView";
 export { useMessages } from "./useMessages";

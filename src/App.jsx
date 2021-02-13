@@ -23,7 +23,7 @@ function App() {
 
   useEffect(() => {
     if (!billboardTitle) user.list && setBillboardTitle(user.list[0]);
-  }, [user.list]);
+  }, [user.list, billboardTitle]);
 
   const resetModalAndClose = () => {
     setModalVisible(false);
