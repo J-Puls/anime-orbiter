@@ -44,7 +44,7 @@ export const MainNavbar = (props) => {
                 className="user-nav-img ml-1"
                 width={50}
                 height={50}
-                alt="Profile photo"
+                alt="profile"
               />
             </Dropdown.Toggle>
 
