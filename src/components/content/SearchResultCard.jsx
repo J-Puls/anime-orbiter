@@ -53,7 +53,7 @@ export const SearchResultCard = (props) => {
 
   return (
     <div
-      style={{ backgroundImage: `url("${title.image.medium}")` }}
+      style={{ backgroundImage: `url("${title.image.medium.replace("http://", "https://")}")` }}
       className="title-card search-result position-relative m-1 rounded"
     >
       <div className="title-card-overlay position-absolute top-0 left-0 d-flex flex-column justify-content-around text-center">

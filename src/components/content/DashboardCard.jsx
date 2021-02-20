@@ -5,7 +5,7 @@ export const DashboardCard = (props) => {
 
   return (
     <div
-      style={{ backgroundImage: `url("${title.image.poster.original.url}")` }}
+      style={{ backgroundImage: `url("${title.image.poster.original.url.replace("http://", "https://")}")` }}
       className={`title-card position-relative mx-1 rounded ${
         title.favorite ? "favorite" : ""
       }`}

@@ -73,7 +73,7 @@ export const Billboard = (props) => {
       <Row
         className="billboard"
         style={{
-          backgroundImage: `url("${bg.url}")`,
+          backgroundImage: `url("${bg.url.replace("http://", "https://")}")`,
           backgroundSize: bg.size,
         }}
       >
