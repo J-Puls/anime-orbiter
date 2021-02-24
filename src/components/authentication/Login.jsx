@@ -1,13 +1,7 @@
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { Button, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import GlobalAppContext from "../../context/GlobalContext";
-// import InputUnderline from "../ui/InputUnderline";
-// // Custom icons
-// import rocketLanding from "assets/rocket-landing.svg";
-// import rocketLanded from "assets/rocket-landed.svg";
-// // Form animation
-// import loginInputAnimation from "./login_input_animation";
 import { useMessages } from "../../context/hooks";
 import authenticateAndLogin from "../../utils/authentication/authenticateAndLogin";
 import navTo from "../../utils/navigation/navTo";

@@ -1,7 +1,7 @@
 import { useContext } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import GlobalAppContext from "../../context/GlobalContext";
-import { useUserInfo, useBillboardTitle } from "../../context/hooks";
+import { useBillboardTitle, useUserInfo } from "../../context/hooks";
 import removeTitle from "../../utils/content/removeTitle";
 
 export const Billboard = (props) => {

@@ -1,5 +1,4 @@
-import Login from "../components/authentication/Login";
-import SignUp from "../components/authentication/SignUp";
+import { Login, SignUp } from "../components";
 import { useCurrentView } from "../context/hooks";
 
 export const AuthenticationView = () => {

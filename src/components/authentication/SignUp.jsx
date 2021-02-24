@@ -1,16 +1,10 @@
 import React, { useContext } from "react";
+import { Button, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-// Bootstrap
-import { Button, Form, Container } from "react-bootstrap";
-import navTo from "../../utils/navigation/navTo";
-import signUpNewUser from "../../utils/authentication/signUpNewUser";
 import GlobalAppContext from "../../context/GlobalContext";
-// // Custom icons
-// import rocketLanding from "assets/rocket-landing.svg";
-// import rocketLanded from "assets/rocket-landed.svg";
-// // Form animation
-// import loginInputAnimation from "./login_input_animation";
 import { useMessages } from "../../context/hooks";
+import signUpNewUser from "../../utils/authentication/signUpNewUser";
+import navTo from "../../utils/navigation/navTo";
 
 export const SignUp = (props) => {
   const GlobalContext = useContext(GlobalAppContext);

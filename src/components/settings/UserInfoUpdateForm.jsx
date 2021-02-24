@@ -1,7 +1,7 @@
 import { forwardRef } from "react";
-import { InputGroup, Button, Form } from "react-bootstrap";
+import { Button, Form, InputGroup } from "react-bootstrap";
 
-const UserInfoUpdateForm = forwardRef((props, ref) => {
+export const UserInfoUpdateForm = forwardRef((props, ref) => {
   return (
     <>
       <label htmlFor={props.id} className="lead">

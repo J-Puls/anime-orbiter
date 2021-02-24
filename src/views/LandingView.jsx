@@ -9,7 +9,7 @@ export const LandingView = () => {
   const history = useHistory();
   const GlobalContext = useContext(GlobalAppContext);
 
-  const handleClick = () => {
+  const handleLoginClick = () => {
     navTo(history, GlobalContext, "authentication", "login");
   };
 
@@ -24,7 +24,11 @@ export const LandingView = () => {
           alt="main logo"
         />
         <Col className="text-center">
-          <Button variant="link" className="text-danger" onClick={handleClick}>
+          <Button
+            variant="link"
+            className="text-danger"
+            onClick={handleLoginClick}
+          >
             <strong>Log in / Sign Up</strong>
           </Button>
         </Col>

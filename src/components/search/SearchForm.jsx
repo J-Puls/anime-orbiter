@@ -11,7 +11,7 @@ import findTitles from "../../utils/content/findTitles";
 // // Styling
 // import "./SearchForm.css";
 
-const SearchForm = (props) => {
+export const SearchForm = (props) => {
   const GlobalContext = useContext(GlobalAppContext);
   let query;
   const handleSubmit = async (e) => {

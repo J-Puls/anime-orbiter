@@ -1,4 +1,3 @@
-// const { decode } = require("firebase-functions/lib/providers/https");
 const { admin, db } = require("./admin");
 const rr = require("rainbow-road");
 

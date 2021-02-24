@@ -1,6 +1,6 @@
-import { Row, Container } from "react-bootstrap";
+import { Container, Row } from "react-bootstrap";
+import { SearchResultCard } from "../";
 import { useSearchResults } from "../../context/hooks";
-import SearchResultCard from "../content/SearchResultCard";
 import SearchForm from "./SearchForm";
 
 export const FindTitles = () => {

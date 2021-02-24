@@ -3,18 +3,13 @@ import { Dropdown, Navbar } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useUserInfo } from "../../context/hooks";
-// Custom Icons
-// import rocket from "assets/rocket.svg";
-// import logoutIcon from "assets/logout.svg";
-// Styling
-// import "./AuthenticatedHeader.css";
 import navTo from "../../utils/navigation/navTo";
 
-export const MainNavbar = (props) => {
+export const MainNavbar = () => {
   const GlobalContext = useContext(GlobalAppContext);
   const history = useHistory();
   const user = useUserInfo();
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     GlobalContext.setUser({});
     GlobalContext.setBillboardTitle(null);
     navTo(history, GlobalContext, "", "landing");
@@ -31,7 +26,6 @@ export const MainNavbar = (props) => {
   return (
     <Navbar variant="dark" id="navbar" expand="xs" className="navbar">
       <Navbar.Brand className="slide-in-right h-100">
-        {/* <Image src={rocket} fluid className="p-2 my-1 h-75" /> */}
         Anime Orbiter
       </Navbar.Brand>
 
