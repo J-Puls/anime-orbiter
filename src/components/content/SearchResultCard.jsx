@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Button } from "react-bootstrap";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useUserInfo } from "../../context/hooks";
-import addTitle from "../../utils/content/addTitle";
+import { addTitle } from "../../utils";
 
 export const SearchResultCard = (props) => {
   const title = props.title;
@@ -24,7 +24,7 @@ export const SearchResultCard = (props) => {
     }
 
     const response = await addTitle({
-      token: user.session_token,
+      token: window.sessionStorage.getItem("token"),
       title,
       uid: user.credentials.uid,
     });
@@ -53,7 +53,12 @@ export const SearchResultCard = (props) => {
 
   return (
     <div
-      style={{ backgroundImage: `url("${title.image.medium.replace("http://", "https://")}")` }}
+      style={{
+        backgroundImage: `url("${title.image.medium.replace(
+          "http://",
+          "https://"
+        )}")`,
+      }}
       className="title-card search-result position-relative m-1 rounded"
     >
       <div className="title-card-overlay position-absolute top-0 left-0 d-flex flex-column justify-content-around text-center">

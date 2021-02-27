@@ -4,8 +4,7 @@ import { useHistory } from "react-router-dom";
 import { Billboard, DashboardCard } from "../../components";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useBillboardTitle, useUserInfo } from "../../context/hooks";
-import { toggleFavorite } from "../../utils/content/toggleFavorite";
-import navTo from "../../utils/navigation/navTo";
+import { navTo, toggleFavorite } from "../../utils";
 
 export const Dashboard = () => {
   const GlobalContext = useContext(GlobalAppContext);
@@ -25,7 +24,7 @@ export const Dashboard = () => {
     const response = await toggleFavorite({
       titleId,
       uid: user.credentials.uid,
-      token: user.session_token,
+      token: window.sessionStorage.getItem("token"),
     });
 
     if (response.type === "success") {

@@ -3,9 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useMessages } from "../../context/hooks";
-import authenticateAndLogin from "../../utils/authentication/authenticateAndLogin";
-import navTo from "../../utils/navigation/navTo";
-import getUserInfo from "../../utils/user/getUserInfo";
+import { authenticateAndLogin, getUserInfo, navTo } from "../../utils";
 
 export const Login = () => {
   const history = useHistory();
@@ -33,10 +31,10 @@ export const Login = () => {
           uid: data.uid,
         });
         GlobalContext.setUser({
-          session_token: data.token,
           credentials: response.credentials,
           list: response.list.reverse(),
         });
+        window.sessionStorage.setItem("token", data.token);
         navTo(history, GlobalContext, "dashboard", "overview");
       }
     } catch (err) {

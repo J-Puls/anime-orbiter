@@ -2,7 +2,7 @@ import { useContext } from "react";
 import { Button, Col, Container, Row } from "react-bootstrap";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useBillboardTitle, useUserInfo } from "../../context/hooks";
-import removeTitle from "../../utils/content/removeTitle";
+import { removeTitle } from "../../utils";
 
 export const Billboard = (props) => {
   const GlobalContext = useContext(GlobalAppContext);
@@ -14,7 +14,7 @@ export const Billboard = (props) => {
 
   const handleRemoveTitle = async () => {
     const response = await removeTitle({
-      token: user.session_token,
+      token: window.sessionStorage.getItem("token"),
       titleId: title.id,
       uid: user.credentials.uid,
     });

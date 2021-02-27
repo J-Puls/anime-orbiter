@@ -3,11 +3,13 @@ import { Button, Col, Container, Figure, Row } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useMessages, useUserInfo } from "../../context/hooks";
-import deleteExistingUser from "../../utils/user/deleteExistingUser";
-import navTo from "../../utils/navigation/navTo";
-import attemptUpdateMotto from "../../utils/user/attemptUpdateMotto";
-import attemptUpdateUsername from "../../utils/user/attemptUpdateUsername";
-import attemptUpdateLocation from "../../utils/user/attemptUpdateLocation";
+import {
+  attemptUpdateLocation,
+  attemptUpdateMotto,
+  attemptUpdateUsername,
+  deleteExistingUser,
+  navTo
+} from "../../utils";
 import UserInfoUpdateForm from "../settings/UserInfoUpdateForm";
 
 export const Settings = () => {
@@ -15,8 +17,9 @@ export const Settings = () => {
   const history = useHistory();
   const user = useUserInfo();
   const messages = useMessages();
-  const { credentials, session_token: sessionToken } = user;
+  const { credentials } = user;
   const defaultFormText = { message: "", type: null };
+  const token = window.sessionStorage.getItem("token");
   let username, motto, userLocation;
 
   const [usernameFormText, setUsernameFormText] = useState(defaultFormText);
@@ -35,7 +38,7 @@ export const Settings = () => {
       const response = await attemptUpdateUsername({
         currentUsername: credentials.username,
         newUsername,
-        token: sessionToken,
+        token,
         uid: credentials.uid,
       });
 
@@ -73,7 +76,7 @@ export const Settings = () => {
       const response = await attemptUpdateMotto({
         currentMotto,
         newMotto,
-        token: sessionToken,
+        token,
         uid: credentials.uid,
       });
       if (response.type === "success") {
@@ -110,7 +113,7 @@ export const Settings = () => {
       const response = await attemptUpdateLocation({
         currentLocation,
         newLocation,
-        token: sessionToken,
+        token,
         uid: credentials.uid,
       });
       if (response.type === "success") {
@@ -161,14 +164,15 @@ export const Settings = () => {
 
   const handleDeleteAccount = async () => {
     const credentials = {
-      username: user.credentials.username,
-      uid: user.credentials.uid,
-      token: sessionToken,
+      username: credentials.username,
+      uid: credentials.uid,
+      token,
     };
 
     const response = await deleteExistingUser(credentials);
     if (response.type === "success") {
       navTo(history, GlobalContext, "", "landing");
+      window.sessionStorage.clear();
       GlobalContext.setUser({});
     }
     GlobalContext.setMessages([

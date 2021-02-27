@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import { Dashboard, FindTitles, InfoModal, Settings } from "../components";
 import GlobalAppContext from "../context/GlobalContext";
 import { useCurrentView, useUserInfo } from "../context/hooks";
-import navTo from "../utils/navigation/navTo";
+import { navTo } from "../utils";
 
 export const DashboardView = () => {
   const credentials = useUserInfo().credentials;
@@ -11,9 +11,13 @@ export const DashboardView = () => {
   const history = useHistory();
   const currentView = useCurrentView();
 
+  useLayoutEffect(() => {
+    navTo(history, GlobalContext, "dashboard", "overview");
+  }, []);
+
   // If user is not logged in, redirect to login page
   useLayoutEffect(() => {
-    if (!credentials) {
+    if (!credentials.uid) {
       navTo(history, GlobalContext, "authentication", "login");
     }
   }, [credentials, history, GlobalContext]);

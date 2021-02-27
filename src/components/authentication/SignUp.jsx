@@ -3,8 +3,7 @@ import { Button, Container, Form } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useMessages } from "../../context/hooks";
-import signUpNewUser from "../../utils/authentication/signUpNewUser";
-import navTo from "../../utils/navigation/navTo";
+import { navTo, signUpNewUser } from "../../utils";
 
 export const SignUp = (props) => {
   const GlobalContext = useContext(GlobalAppContext);
@@ -44,10 +43,10 @@ export const SignUp = (props) => {
             { message: data.message, type: data.type, dismissed: false },
           ]);
           GlobalContext.setUser({
-            session_token: data.token,
             credentials: { ...data.credentials },
             list: [],
           });
+          window.sessionStorage.setItem("token", data.token);
           navTo(history, GlobalContext, "dashboard", "overview");
         }
       } catch (err) {

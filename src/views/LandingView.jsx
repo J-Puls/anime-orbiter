@@ -3,7 +3,7 @@ import { useHistory } from "react-router-dom";
 import mainLogo from "../assets/svg/main_logo.svg";
 import { Button, Col, Row } from "react-bootstrap";
 import GlobalAppContext from "../context/GlobalContext";
-import navTo from "../utils/navigation/navTo";
+import { navTo } from "../utils";
 
 export const LandingView = () => {
   const history = useHistory();

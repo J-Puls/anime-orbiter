@@ -3,15 +3,17 @@ import { Dropdown, Navbar } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
 import GlobalAppContext from "../../context/GlobalContext";
 import { useUserInfo } from "../../context/hooks";
-import navTo from "../../utils/navigation/navTo";
+import { navTo } from "../../utils";
 
 export const MainNavbar = () => {
   const GlobalContext = useContext(GlobalAppContext);
   const history = useHistory();
   const user = useUserInfo();
+
   const handleLogout = () => {
-    GlobalContext.setUser({});
+    GlobalContext.setUser({ credentials: {}, list: [] });
     GlobalContext.setBillboardTitle(null);
+    window.sessionStorage.clear();
     navTo(history, GlobalContext, "", "landing");
   };
 
@@ -29,7 +31,7 @@ export const MainNavbar = () => {
         Anime Orbiter
       </Navbar.Brand>
 
-      {user.session_token !== undefined && (
+      {user && user.credentials.uid && (
         <>
           <Dropdown className="ml-auto">
             <Dropdown.Toggle variant="link" id="account-dropdown">

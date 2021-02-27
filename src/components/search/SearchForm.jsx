@@ -1,15 +1,7 @@
 import { useContext } from "react";
-import GlobalAppContext from "../../context/GlobalContext";
-// Redux
-// import { useSelector, connect, useDispatch } from "react-redux";
-// import { openPreviewModal, search } from "state/actions";
-// Bootstrap
 import { Button, Col, Form, InputGroup } from "react-bootstrap";
-import findTitles from "../../utils/content/findTitles";
-// // Loading animation trigger
-// import { trackPromise } from "react-promise-tracker";
-// // Styling
-// import "./SearchForm.css";
+import GlobalAppContext from "../../context/GlobalContext";
+import { findTitles } from "../../utils";
 
 export const SearchForm = (props) => {
   const GlobalContext = useContext(GlobalAppContext);

@@ -6,16 +6,19 @@ import { GlobalAppProvider } from "./context/GlobalContext";
 import Views from "./views";
 
 function App() {
+  const storedUser = JSON.parse(window.sessionStorage.getItem("user"));
   const defaultModalInfo = { title: null, body: null, footer: null };
   const history = useHistory();
   const [billboardTitle, setBillboardTitle] = useState(null);
-  const [currentView, setCurrentView] = useState(history.location.pathname);
+  const [currentView, setCurrentView] = useState(
+    history.location.pathname.replace("/", "")
+  );
   const [messages, setMessages] = useState([]);
   const [messagesVisible, setMessagesVisible] = useState(false);
   const [modalInfo, setModalInfo] = useState(defaultModalInfo);
   const [modalVisible, setModalVisible] = useState(false);
   const [searchResults, setSearchResults] = useState([]);
-  const [user, setUser] = useState({});
+  const [user, setUser] = useState(storedUser ?? { credentials: {}, list: [] });
 
   useEffect(() => {
     setMessagesVisible(messages.length > 0);
