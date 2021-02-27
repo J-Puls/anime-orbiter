@@ -13,7 +13,7 @@ export const DashboardView = () => {
 
   useLayoutEffect(() => {
     navTo(history, GlobalContext, "dashboard", "overview");
-  }, []);
+  }, [history, GlobalContext]);
 
   // If user is not logged in, redirect to login page
   useLayoutEffect(() => {
