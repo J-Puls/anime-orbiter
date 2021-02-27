@@ -8,7 +8,7 @@ import {
   attemptUpdateMotto,
   attemptUpdateUsername,
   deleteExistingUser,
-  navTo
+  navTo,
 } from "../../utils";
 import UserInfoUpdateForm from "../settings/UserInfoUpdateForm";
 
@@ -163,13 +163,13 @@ export const Settings = () => {
   };
 
   const handleDeleteAccount = async () => {
-    const credentials = {
+    const data = {
       username: credentials.username,
       uid: credentials.uid,
       token,
     };
 
-    const response = await deleteExistingUser(credentials);
+    const response = await deleteExistingUser(data);
     if (response.type === "success") {
       navTo(history, GlobalContext, "", "landing");
       window.sessionStorage.clear();
