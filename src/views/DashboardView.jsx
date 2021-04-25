@@ -11,17 +11,13 @@ export const DashboardView = () => {
   const history = useHistory();
   const currentView = useCurrentView();
 
-  useLayoutEffect(() => {
-    navTo(history, GlobalContext, "dashboard", "overview");
-  }, [history, GlobalContext]);
-
   // If user is not logged in, redirect to login page
   useLayoutEffect(() => {
-    if (!credentials.uid) {
-      navTo(history, GlobalContext, "authentication", "login");
-    }
-  }, [credentials, history, GlobalContext]);
+    !credentials.uid && navTo(history, GlobalContext, "authentication", "login");
+    currentView === "dashboard" && navTo(history, GlobalContext, "dashboard", "overview");
+  }, [history, GlobalContext, credentials, currentView]);
 
+  
   return (
     <div className="py-5">
       {currentView === "overview" && <Dashboard />}

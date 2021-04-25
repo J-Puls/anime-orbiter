@@ -6,6 +6,7 @@
     "bootstrap": "^4.6.0",
     "firebase": "^8.2.5",
     "firebase-admin": "^9.4.2",
+    "netlify-cli": "^3.21.9",
     "rainbow-road": "^1.1.0",
     "react": "^17.0.1",
     "react-bootstrap": "^1.4.3",
