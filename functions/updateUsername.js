@@ -19,69 +19,41 @@ exports.handler = async req => {
 
     verifyAuthentication(req);
 
-    const requestBody = JSON.parse(req.body);
+    try {
+        const request = JSON.parse(req.body);
 
-    const nameInUse = await db
-        .collection('/users/')
-        .where('username', '==', requestBody.newUsername)
-        .get()
-        .then(data => {
-            if (data.docs.length > 0) return true;
-            return false;
+        const user_data = await db
+            .collection('/users/')
+            .where('username', '==', request.newUsername)
+            .get();
+
+        const name_exists = !!user_data?.docs?.[0];
+
+        if (name_exists) throw 'This username is already taken!';
+
+        const newUsername = reduceUsername(request.newUsername);
+
+        if (!newUsername) throw 'No username supplied.';
+
+        if (request.newUsername === request.currentUsername)
+            throw 'New username cannot be the same as current username!';
+
+        if (request.newUsername.length <= 5)
+            throw 'New username must be at least 5 characters long!';
+
+        await db
+            .doc(`/users/${req.headers.uid}`)
+            .update({ username: newUsername });
+        rr.succ(`Username Changed Successfully!`);
+        return fResponse(200, {
+            type: 'success',
+            message: 'Username updated successfully.',
+            username: newUsername
         });
-
-    if (nameInUse) {
-        rr.err('Username Already Taken!');
+    } catch (err) {
         return fResponse(500, {
             type: 'danger',
-            error: 'This username is already taken!'
+            error: err?.message || err
         });
     }
-
-    if (requestBody.newUsername === requestBody.currentUsername) {
-        rr.err('New username cannot be the same as current username!');
-        return fResponse(500, {
-            type: 'danger',
-            error: 'New username cannot be the same as current username!'
-        });
-    }
-
-    if (requestBody.newUsername.length <= 5) {
-        rr.err('New username too short!');
-        return fResponse(500, {
-            type: 'danger',
-            error: 'New username must be at least 5 characters long!'
-        });
-    }
-
-    const newUsername = reduceUsername(requestBody.newUsername);
-
-    if (!newUsername)
-        return fResponse(500, {
-            type: 'danger',
-            error: 'Username missing from request body!'
-        });
-
-    const response = db
-        .doc(`/users/${req.headers.uid}`)
-        .update({ username: newUsername })
-        .then(() => {
-            rr.succ(`Username Changed Successfully!
-          old: ${requestBody.currentUsername}
-          new: ${newUsername}
-          `);
-            return fResponse(200, {
-                type: 'success',
-                message: 'Username updated successfully.',
-                username: newUsername
-            });
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, {
-                type: 'danger',
-                error: err
-            });
-        });
-    return response;
 };

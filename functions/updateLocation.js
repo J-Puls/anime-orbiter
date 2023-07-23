@@ -18,44 +18,26 @@ exports.handler = async req => {
     }
 
     verifyAuthentication(req);
+    try {
+        const requestBody = JSON.parse(req.body);
 
-    const requestBody = JSON.parse(req.body);
+        const newLocation = reduceLocation(requestBody?.newLocation);
+        if (!newLocation) throw 'No location supplied.';
 
-    const newLocation = reduceLocation(requestBody.newLocation);
-    if (!newLocation)
-        return fResponse(500, {
-            type: 'danger',
-            error: 'New location missing from request body!'
+        if (requestBody?.newLocation === requestBody?.currentLocation)
+            throw 'New location cannot be the same as current location!';
+
+        await db
+            .doc(`/users/${req.headers.uid}`)
+            .update({ location: newLocation });
+
+        rr.succ(`Location Changed Successfully!`);
+        return fResponse(200, {
+            type: 'success',
+            message: 'Location updated successfully.',
+            location: newLocation
         });
-
-    if (requestBody.newLocation === requestBody.currentLocation) {
-        rr.err('New location cannot be the same as current location!');
-        return fResponse(400, {
-            type: 'danger',
-            error: 'New location cannot be the same as current location!'
-        });
+    } catch (err) {
+        return fResponse(500, { type: 'danger', error: err?.message || err });
     }
-
-    const response = db
-        .doc(`/users/${req.headers.uid}`)
-        .update({ location: newLocation })
-        .then(() => {
-            rr.succ(`Location Changed Successfully!
-          old: ${requestBody.currentLocation}
-          new: ${newLocation}
-          `);
-            return fResponse(200, {
-                type: 'success',
-                message: 'Location updated successfully.',
-                location: newLocation
-            });
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, {
-                type: 'danger',
-                error: err
-            });
-        });
-    return response;
 };

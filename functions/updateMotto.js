@@ -19,51 +19,29 @@ exports.handler = async req => {
 
     verifyAuthentication(req);
 
-    const requestBody = JSON.parse(req.body);
+    try {
+        const request = JSON.parse(req.body);
 
-    const newMotto = reduceMotto(requestBody.newMotto);
-    if (!newMotto)
-        return fResponse(500, {
-            type: 'danger',
-            error: 'New motto missing from request body!'
-        });
+        const newMotto = reduceMotto(request.newMotto);
+        if (!newMotto) throw 'No motto supplied.';
 
-    if (requestBody.newMotto === requestBody.currentMotto) {
-        rr.err('New motto cannot be the same as current motto!');
-        return fResponse(400, {
-            type: 'danger',
-            error: 'New motto cannot be the same as current motto!'
+        if (request.newMotto === request.currentMotto) {
+            throw 'New motto cannot be the same as current motto!';
+        }
+
+        if (request.newMotto.length <= 5) {
+            throw 'New motto must be at least 5 characters long!';
+        }
+
+        await db.doc(`/users/${req.headers.uid}`).update({ motto: newMotto });
+        rr.succ(`Motto Changed Successfully!`);
+
+        return fResponse(200, {
+            type: 'success',
+            message: 'Motto updated successfully.',
+            motto: newMotto
         });
+    } catch (err) {
+        return fResponse(500, { type: 'danger', error: err?.message || err });
     }
-
-    if (requestBody.newMotto.length <= 5) {
-        rr.err('New motto too short!');
-        return fResponse(500, {
-            type: 'danger',
-            error: 'New motto must be at least 5 characters long!'
-        });
-    }
-
-    const response = db
-        .doc(`/users/${req.headers.uid}`)
-        .update({ motto: newMotto })
-        .then(() => {
-            rr.succ(`Motto Changed Successfully!
-          old: ${requestBody.currentMotto}
-          new: ${newMotto}
-          `);
-            return fResponse(200, {
-                type: 'success',
-                message: 'Motto updated successfully.',
-                motto: newMotto
-            });
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, {
-                type: 'danger',
-                error: err
-            });
-        });
-    return response;
 };

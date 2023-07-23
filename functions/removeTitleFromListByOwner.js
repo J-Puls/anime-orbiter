@@ -10,37 +10,47 @@ if (!firebase.apps.length) firebase.initializeApp(config);
 exports.handler = async req => {
     verifyAuthentication(req);
 
-    const { titleId, uid } = JSON.parse(req.body);
+    try {
+        const { titleId, uid } = JSON.parse(req.body);
 
-    const response = db
-        .collection('user_lists')
-        .where('owner', '==', uid)
-        .get()
-        .then(data => {
-            const currentList = data.docs[0].data().contents;
-            let newList;
-            currentList.forEach(item => {
-                if (item.id === titleId) {
-                    newList = currentList.filter(value => value !== item);
-                    db.collection('user_lists')
-                        .doc(data.docs[0].id)
-                        .update({
-                            contents: newList,
-                            last_modified: new Date().toISOString()
-                        })
-                        .then(() => rr.succ('List updated successfully!'))
-                        .catch(err => rr.err(`${err}`));
-                }
-            });
-            return fResponse(200, {
-                type: 'success',
-                message: 'List updated successfully.',
-                list: newList
-            });
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, { type: 'danger', error: err });
+        const list_data = await db
+            .collection('user_lists')
+            .where('owner', '==', uid)
+            .get();
+
+        let list = list_data.docs?.[0]?.data?.()?.contents;
+
+        console.log('prev list:', list);
+
+        if (!!list.find(item => item?.id === titleId)) {
+            list = list.filter(item => item?.id !== titleId);
+
+            console.log('new list:', list);
+
+            const payload = {
+                contents: list,
+                last_modified: new Date().toISOString()
+            };
+
+            await db
+                .collection('user_lists')
+                .doc(list_data?.docs?.[0]?.id)
+                .update(payload);
+
+            rr.succ('List updated successfully!');
+        } else {
+            rr.warn('List item not found');
+        }
+
+        return fResponse(200, {
+            type: 'success',
+            message: 'List updated successfully.',
+            list
         });
-    return await response;
+    } catch (err) {
+        return fResponse(500, {
+            type: 'danger',
+            error: err?.message || 'An unknown error occurred'
+        });
+    }
 };

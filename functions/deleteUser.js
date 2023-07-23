@@ -18,62 +18,35 @@ exports.handler = async req => {
 
     verifyAuthentication(req);
 
-    const data = JSON.parse(req.body);
-    const { uid } = data;
-    let response;
+    try {
+        const data = JSON.parse(req.body);
+        const { uid } = data;
 
-    response = admin
-        .auth()
-        .deleteUser(uid)
-        .then(() => {
-            rr.succ('Account Deleted Successfully! ');
-            return fResponse(200, {
-                type: 'success',
-                message: 'Account deleted successfully.'
-            });
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, { error: err, type: 'error' });
-        });
+        const user_list = await db
+            .collection('user_lists')
+            .where('owner', '==', uid)
+            .get();
 
-    response = db
-        .collection('user_lists')
-        .where('owner', '==', uid)
-        .get()
-        .then(data => {
-            db.collection('user_lists')
-                .doc(data.docs[0].id)
-                .delete()
-                .then(() => rr.succ('List Deleted Successfully!'))
-                .catch(err => {
-                    rr.err(`${err}`);
-                    return fResponse(500, { error: err });
-                });
-            return fResponse(200, {
-                type: 'success',
-                message: 'List deleted successfully.'
-            });
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, { error: err });
-        });
+        // Delete the user's list record
+        await db
+            .collection('user_lists')
+            .doc(user_list?.docs?.[0]?.id)
+            .delete();
+        rr.succ('User List Deleted Successfully!');
 
-    response = db
-        .collection('users')
-        .doc(uid)
-        .delete()
-        .then(() => rr.succ('Profile Deleted Successfully!'))
-        .then(() => {
-            return fResponse(200, {
-                message: 'Account, Profile and List deleted successfully!',
-                type: 'success'
-            });
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, { error: err, type: 'danger' });
+        // Delete the user's profile record
+        await db.collection('users').doc(uid).delete();
+        rr.succ('Profile Deleted Successfully!');
+
+        // Delete the user's authentication record
+        await admin.auth().deleteUser(uid);
+        rr.succ('Account Deleted Successfully! ');
+
+        return fResponse(200, {
+            message: 'Account and all associated data deleted.',
+            type: 'success'
         });
-    return response;
+    } catch (err) {
+        return fResponse(500, { error: err?.message || err, type: 'error' });
+    }
 };

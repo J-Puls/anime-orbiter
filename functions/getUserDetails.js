@@ -10,20 +10,15 @@ if (!firebase.apps.length) firebase.initializeApp(config);
 exports.handler = async req => {
     verifyAuthentication(req);
 
-    let responseData = {};
-    const uid = req?.headers?.uid;
-
     try {
+        let responseData = {};
+        const uid = req?.headers?.uid;
+
         const user_doc = await db.doc(`/users/${uid}`).get();
 
-        if (!user_doc?.exists)
-            return fResponse(500, {
-                type: 'danger',
-                error: 'Account not found.'
-            });
+        if (!user_doc?.exists) throw 'Account not found.';
 
         rr.succ('Account Found Successfully!');
-        responseData.credentials = user_doc.data();
 
         const list_doc = await db
             .collection('user_lists')
@@ -33,14 +28,19 @@ exports.handler = async req => {
 
         const list = list_doc?.docs?.[0]?.data?.()?.contents;
 
-        if (!list)
-            return fResponse(500, {
-                type: 'danger',
-                error: 'No list found for this account.'
-            });
+        if (!list) throw 'No list found for this account.';
 
         rr.succ('List Found Successfully!');
         responseData.list = [...list];
+
+        rr.succ('All Data Found Successfully!');
+
+        return fResponse(200, {
+            type: 'success',
+            message: 'Details retrieved successfully.',
+            credentials: user_doc?.data?.(),
+            list
+        });
     } catch (err) {
         rr.err(`${err}`);
         return fResponse(500, {
@@ -48,13 +48,4 @@ exports.handler = async req => {
             error: `An error occurred: ${err?.message || err}`
         });
     }
-
-    const response = fResponse(200, {
-        type: 'success',
-        message: 'Details retrieved successfully.',
-        ...responseData
-    });
-
-    rr.succ('All Data Found Successfully!');
-    return response;
 };

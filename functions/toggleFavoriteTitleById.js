@@ -9,49 +9,39 @@ if (!firebase.apps.length) firebase.initializeApp(config);
 
 exports.handler = async req => {
     verifyAuthentication(req);
-    const { titleId, uid } = JSON.parse(req.body);
-    rr.info(`${titleId} ${uid}`);
 
-    const response = db
-        .collection('user_lists')
-        .where('owner', '==', uid)
-        .orderBy('date_created', 'desc')
-        .get()
-        .then(async data => {
-            const userList = data.docs[0];
-            const list = data.docs[0].data().contents;
-            const toUpdate = list.find(item => item.id === titleId);
-            if (!toUpdate) throw Error('Title not found in list.');
-            const newList = Array.from(list);
+    try {
+        const { titleId, uid } = JSON.parse(req.body);
 
-            newList[list.indexOf(toUpdate)] = {
-                ...toUpdate,
-                favorite: !toUpdate.favorite
-            };
+        const user_list = await db
+            .collection('user_lists')
+            .where('owner', '==', uid)
+            .orderBy('date_created', 'desc')
+            .get();
 
-            const updateResult = await db
-                .collection('user_lists')
-                .doc(userList.id)
-                .update({ contents: newList })
-                .then(() => {
-                    return fResponse(200, {
-                        type: 'success',
-                        message: 'Title updated successfully!',
-                        list: newList
-                    });
-                })
-                .catch(err => {
-                    rr.err(`${err}`);
-                    return fResponse(400, {
-                        type: 'danger',
-                        message: 'Title update failed'
-                    });
-                });
-            return updateResult;
-        })
-        .catch(err => {
-            rr.err(`${err}`);
-            return fResponse(500, { type: 'danger', error: err });
+        const list = user_list?.docs?.[0]?.data()?.contents;
+
+        const to_update = list.find(item => item.id === titleId);
+        if (!to_update) throw Error('Title not found in list.');
+
+        console.log('is favorite:', to_update);
+
+        list[list.indexOf(to_update)] = {
+            ...to_update,
+            favorite: !to_update.favorite
+        };
+
+        await db
+            .collection('user_lists')
+            .doc(user_list?.docs?.[0]?.id)
+            .update({ contents: list });
+
+        return fResponse(200, {
+            type: 'success',
+            message: 'Title updated successfully!',
+            list
         });
-    return await response;
+    } catch (err) {
+        return fResponse(500, { type: 'danger', error: err?.message || err });
+    }
 };
