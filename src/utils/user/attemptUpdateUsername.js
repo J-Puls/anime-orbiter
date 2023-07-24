@@ -1,6 +1,6 @@
 import makeRequest from '../general/makeRequest';
 
-export const attemptUpdateUsername = async (data) => {
+export const attemptUpdateUsername = async data => {
 
     const url = '/api/updateUsername';
     const options = {

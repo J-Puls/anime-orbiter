@@ -5,13 +5,13 @@ export const useBillboardTitle = () => {
 
     const context = useContext(GlobalAppContext);
 
-    const [billboardTitle, setBillboardTitle] = useState(context.billboard_title);
+    const [ billboardTitle, setBillboardTitle ] = useState(context.billboard_title);
 
     useEffect(() => {
 
         setBillboardTitle(context.billboard_title);
   
-    }, [context.billboard_title]);
+    }, [ context.billboard_title ]);
 
     return billboardTitle;
 

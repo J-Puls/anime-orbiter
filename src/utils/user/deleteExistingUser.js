@@ -1,6 +1,6 @@
 import makeRequest from '../general/makeRequest';
 
-export const deleteExistingUser = async (data) => {
+export const deleteExistingUser = async data => {
 
     const url = '/api/deleteUser';
     const options = {

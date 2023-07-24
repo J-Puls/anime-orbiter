@@ -1,6 +1,6 @@
 import makeRequest from '../general/makeRequest';
 
-export const signUpNewUser = async (data) => {
+export const signUpNewUser = async data => {
 
     const url = '/api/createUser';
     const options = {

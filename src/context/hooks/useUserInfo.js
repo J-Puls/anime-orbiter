@@ -4,7 +4,7 @@ import GlobalAppContext from '../GlobalContext';
 export const useUserInfo = () => {
 
     const context = useContext(GlobalAppContext);
-    const [userInfo, setUserInfo] = useState(
+    const [ userInfo, setUserInfo ] = useState(
         JSON.parse(window.sessionStorage.getItem('user'))
     );
 
@@ -13,7 +13,7 @@ export const useUserInfo = () => {
         setUserInfo(context.user);
         window.sessionStorage.setItem('user', JSON.stringify(userInfo));
   
-    }, [context.user, userInfo]);
+    }, [ context.user, userInfo ]);
     return userInfo;
 
 };

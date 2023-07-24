@@ -2,7 +2,7 @@ const { admin, db } = require('./admin');
 const rr = require('rainbow-road');
 
 // Verifies the current user before processing the request
-module.exports = (req) => {
+module.exports = req => {
 
     let idToken;
     const uid = req.headers.uid;
@@ -24,7 +24,7 @@ module.exports = (req) => {
     const isAuthenticated = admin
         .auth()
         .verifyIdToken(idToken)
-        .then((decodedToken) => {
+        .then(decodedToken => {
 
             req.user = decodedToken;
     
@@ -34,18 +34,18 @@ module.exports = (req) => {
             return db
                 .doc(`/users/${uid}`)
                 .get()
-                .then((data) => data.data())
-                .catch((err) => rr.err(`${err}`));
+                .then(data => data.data())
+                .catch(err => rr.err(`${err}`));
     
         })
-        .then((data) => {
+        .then(data => {
 
             req.user.username = data.username;
             rr.succ('Authentication Successful!');
             return true;
     
         })
-        .catch((err) => {
+        .catch(err => {
 
             rr.err(`${err}`);
             return false;

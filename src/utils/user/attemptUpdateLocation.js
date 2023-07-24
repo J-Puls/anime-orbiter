@@ -1,6 +1,6 @@
 import makeRequest from '../general/makeRequest';
 
-export const attemptUpdateLocation = async (data) => {
+export const attemptUpdateLocation = async data => {
 
     const url = '/api/updateLocation';
     const options = {

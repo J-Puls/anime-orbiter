@@ -21,7 +21,7 @@ exports.handler = async req => {
             .orderBy('date_created', 'desc')
             .get();
 
-        let list = [...list_data?.docs?.[0]?.data?.()?.contents, title];
+        let list = [ ...list_data?.docs?.[0]?.data?.()?.contents, title ];
 
         const payload = {
             contents: list,

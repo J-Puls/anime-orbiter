@@ -1,6 +1,6 @@
 import makeRequest from '../general/makeRequest';
 
-export const attemptUpdateMotto = async (data) => {
+export const attemptUpdateMotto = async data => {
 
     const url = '/api/updateMotto';
     const options = {

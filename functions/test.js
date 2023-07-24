@@ -13,13 +13,13 @@ exports.handler = async (req, res) => {
         .collection('users')
         .where('username', '==', request.username)
         .get()
-        .then((data) => {
+        .then(data => {
 
             console.log(data.docs[0].data());
             return data.docs[0].data();
     
         })
-        .catch((err) => rr.err(`${err}`));
+        .catch(err => rr.err(`${err}`));
 
     return fResponse(200, { data: nameValid || 'no data found' });
 

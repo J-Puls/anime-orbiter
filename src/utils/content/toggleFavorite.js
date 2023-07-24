@@ -1,6 +1,6 @@
 import makeRequest from '../general/makeRequest';
 
-export const toggleFavorite = async (data) => {
+export const toggleFavorite = async data => {
 
     // tell our API to have Firebase toggle the "favorite"
     // status of the selected title for the current user

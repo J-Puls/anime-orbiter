@@ -1,17 +1,17 @@
 import makeRequest from '../general/makeRequest';
 
-export const addTitle = async (data) => {
+export const addTitle = async data => {
 
     // fetch the related images for this title, since the tvmaze API
     // only returns the poster when searching
     const imgUrl = `https://api.tvmaze.com/shows/${data.title.id}/images`;
     const images = await fetch(imgUrl)
-        .then((response) => {
+        .then(response => {
 
             return response.json();
     
         })
-        .catch((err) => console.error(err));
+        .catch(err => console.error(err));
 
     // sort the images and structure them into a nicer format
     const sortedImages = {};

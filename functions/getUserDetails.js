@@ -33,7 +33,7 @@ exports.handler = async req => {
         if (!list) throw 'No list found for this account.';
 
         rr.succ('List Found Successfully!');
-        responseData.list = [...list];
+        responseData.list = [ ...list ];
 
         rr.succ('All Data Found Successfully!');
 

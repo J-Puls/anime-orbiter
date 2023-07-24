@@ -1,6 +1,6 @@
 import makeRequest from '../general/makeRequest';
 
-export const removeTitle = async (data) => {
+export const removeTitle = async data => {
 
     // tell our API to have Firebase remove the selected title
     // from the current user's list

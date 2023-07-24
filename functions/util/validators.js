@@ -1,7 +1,7 @@
 const rr = require('rainbow-road');
 
 // Empty string validation
-const isEmpty = (str) => {
+const isEmpty = str => {
 
     if (str.trim() === '') return true;
     else return false;
@@ -9,7 +9,7 @@ const isEmpty = (str) => {
 };
 
 // Email format validation
-const isEmail = (email) => {
+const isEmail = email => {
 
     const regEx = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
     if (email.match(regEx)) return true;
@@ -17,7 +17,7 @@ const isEmail = (email) => {
 
 };
 
-exports.validateSignupData = (data) => {
+exports.validateSignupData = data => {
 
     let error;
     let valid;
@@ -55,7 +55,7 @@ exports.validateSignupData = (data) => {
 
 };
 
-exports.validateLoginData = (data) => {
+exports.validateLoginData = data => {
 
     let errors = {};
     if (isEmpty(data.email)) errors.email = 'Must not be empty';
@@ -67,7 +67,7 @@ exports.validateLoginData = (data) => {
 
 };
 
-exports.reduceMotto = (data) => {
+exports.reduceMotto = data => {
 
     if (!data) {
 
@@ -80,7 +80,7 @@ exports.reduceMotto = (data) => {
 
 };
 
-exports.reduceLocation = (data) => {
+exports.reduceLocation = data => {
 
     if (!data) {
 
@@ -93,7 +93,7 @@ exports.reduceLocation = (data) => {
 
 };
 
-exports.reduceUserDetails = (data) => {
+exports.reduceUserDetails = data => {
 
     let userDetails = {
         location: '',
@@ -106,7 +106,7 @@ exports.reduceUserDetails = (data) => {
 
 };
 
-exports.reduceUsername = (data) => {
+exports.reduceUsername = data => {
 
     if (!data) {
 
