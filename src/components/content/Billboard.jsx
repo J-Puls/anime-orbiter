@@ -4,7 +4,7 @@ import GlobalAppContext from '../../context/GlobalContext';
 import { useBillboardTitle, useUserInfo } from '../../context/hooks';
 import { removeTitle } from '../../utils';
 
-export const Billboard = (props) => {
+export const Billboard = props => {
 
     const GlobalContext = useContext(GlobalAppContext);
     const user = useUserInfo();

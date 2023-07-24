@@ -18,7 +18,7 @@ export const DashboardView = () => {
         !credentials.uid && navTo(history, GlobalContext, 'authentication', 'login');
         currentView === 'dashboard' && navTo(history, GlobalContext, 'dashboard', 'overview');
     
-    }, [history, GlobalContext, credentials, currentView]);
+    }, [ history, GlobalContext, credentials, currentView ]);
   
     return (
     <div className="py-5">

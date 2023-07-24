@@ -3,11 +3,11 @@ import { Button, Col, Form, InputGroup } from 'react-bootstrap';
 import GlobalAppContext from '../../context/GlobalContext';
 import { findTitles } from '../../utils';
 
-export const SearchForm = (props) => {
+export const SearchForm = props => {
 
     const GlobalContext = useContext(GlobalAppContext);
     let query;
-    const handleSubmit = async (e) => {
+    const handleSubmit = async e => {
 
         e.preventDefault();
         const queryResults = await findTitles(query.value);
@@ -37,13 +37,13 @@ export const SearchForm = (props) => {
     return (
         <>
       <Col xs="12" md="8" className="mx-auto p-3 text-light mb-2 fade-in">
-        <Form id="searchForm" onSubmit={(e) => handleSubmit(e)}>
+        <Form id="searchForm" onSubmit={e => handleSubmit(e)}>
           <InputGroup className="mb-3">
             <input
               className="search-input w-75"
               id="title"
               placeholder="search"
-              ref={(el) => (query = el)}
+              ref={el => (query = el)}
               required
               size="lg"
               type="text"

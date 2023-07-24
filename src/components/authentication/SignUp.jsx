@@ -5,14 +5,14 @@ import GlobalAppContext from '../../context/GlobalContext';
 import { useMessages } from '../../context/hooks';
 import { navTo, signUpNewUser } from '../../utils';
 
-export const SignUp = (props) => {
+export const SignUp = props => {
 
     const GlobalContext = useContext(GlobalAppContext);
     const history = useHistory();
     const messages = useMessages();
     let username, email, password, confirmPassword;
 
-    const attemptSignup = async (e) => {
+    const attemptSignup = async e => {
 
         e.preventDefault();
         const credentials = {
@@ -81,13 +81,13 @@ export const SignUp = (props) => {
       <Form
         id="signupForm"
         className="auth-form justify-content-center flex-column"
-        onSubmit={(e) => attemptSignup(e)}
+        onSubmit={e => attemptSignup(e)}
       >
         <legend className="text-center h1">Sign Up</legend>
         <Form.Group>
           <label htmlFor="signup-username">Username</label>
           <Form.Control
-            ref={(el) => (username = el)}
+            ref={el => (username = el)}
             type="text"
             id="signup-username"
             className="auth-input auth-signup-input"
@@ -97,7 +97,7 @@ export const SignUp = (props) => {
         <Form.Group>
           <label htmlFor="signup-email">Email</label>
           <Form.Control
-            ref={(el) => (email = el)}
+            ref={el => (email = el)}
             type="email"
             id="signup-email"
             className="auth-input auth-signup-input"
@@ -107,7 +107,7 @@ export const SignUp = (props) => {
         <Form.Group>
           <label htmlFor="signup-password">Password</label>
           <Form.Control
-            ref={(el) => (password = el)}
+            ref={el => (password = el)}
             type="password"
             id="signup-password"
             className="auth-input auth-signup-input"
@@ -117,7 +117,7 @@ export const SignUp = (props) => {
         <Form.Group>
           <label htmlFor="signup-confirm-password">Confirm Password</label>
           <Form.Control
-            ref={(el) => (confirmPassword = el)}
+            ref={el => (confirmPassword = el)}
             type="password"
             id="signup-confirm-password"
             className="auth-input auth-signup-input"

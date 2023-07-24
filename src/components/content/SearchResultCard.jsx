@@ -4,7 +4,7 @@ import GlobalAppContext from '../../context/GlobalContext';
 import { useUserInfo } from '../../context/hooks';
 import { addTitle } from '../../utils';
 
-export const SearchResultCard = (props) => {
+export const SearchResultCard = props => {
 
     const title = props.title;
     const GlobalContext = useContext(GlobalAppContext);

@@ -58,7 +58,7 @@ export const MainNavbar = () => {
               <Dropdown.Item onClick={handleSettingsNav}>
                 Settings
               </Dropdown.Item>
-              <Dropdown.Item onClick={(e) => handleLogout(e)}>
+              <Dropdown.Item onClick={e => handleLogout(e)}>
                 Logout
               </Dropdown.Item>
             </Dropdown.Menu>

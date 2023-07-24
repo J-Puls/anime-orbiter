@@ -15,7 +15,7 @@ export const FindTitles = () => {
       <Container>
         <Row noGutters className="justify-content-center">
           {searchResults &&
-            searchResults.map((title) => {
+            searchResults.map(title => {
 
               return (
                 <SearchResultCard key={title.show.id} title={title.show} />

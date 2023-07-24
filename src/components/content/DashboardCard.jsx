@@ -1,6 +1,6 @@
 import favorite from '../../assets/svg/favorite.svg';
 
-export const DashboardCard = (props) => {
+export const DashboardCard = props => {
 
     const title = props.title;
 

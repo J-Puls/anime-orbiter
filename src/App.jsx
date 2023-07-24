@@ -12,16 +12,16 @@ export const App = props => {
     const defaultModalInfo = { title: null, body: null, footer: null };
 
     const { location } = useHistory();
-    const [billboardTitle, setBillboardTitle] = useState(null);
-    const [currentView, setCurrentView] = useState(
+    const [ billboardTitle, setBillboardTitle ] = useState(null);
+    const [ currentView, setCurrentView ] = useState(
         location.pathname.replace('/', '')
     );
-    const [messages, setMessages] = useState([]);
-    const [messagesVisible, setMessagesVisible] = useState(false);
-    const [modalInfo, setModalInfo] = useState(defaultModalInfo);
-    const [modalVisible, setModalVisible] = useState(false);
-    const [searchResults, setSearchResults] = useState([]);
-    const [user, setUser] = useState(
+    const [ messages, setMessages ] = useState([]);
+    const [ messagesVisible, setMessagesVisible ] = useState(false);
+    const [ modalInfo, setModalInfo ] = useState(defaultModalInfo);
+    const [ modalVisible, setModalVisible ] = useState(false);
+    const [ searchResults, setSearchResults ] = useState([]);
+    const [ user, setUser ] = useState(
         storedUser ?? { credentials: {}, list: [] }
     );
 
@@ -29,14 +29,14 @@ export const App = props => {
 
         setMessagesVisible(messages.length > 0);
     
-    }, [messages]);
+    }, [ messages ]);
 
     useEffect(() => {
 
         if (!billboardTitle && user?.list?.length)
             setBillboardTitle(user.list[0]);
     
-    }, [user.list, billboardTitle]);
+    }, [ user.list, billboardTitle ]);
 
     const resetModalAndClose = () => {
 

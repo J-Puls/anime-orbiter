@@ -23,11 +23,11 @@ export const Settings = () => {
     const token = window.sessionStorage.getItem('token');
     let username, motto, userLocation;
 
-    const [usernameFormText, setUsernameFormText] = useState(defaultFormText);
-    const [mottoFormText, setMottoFormText] = useState(defaultFormText);
-    const [locationFormText, setLocationFormText] = useState(defaultFormText);
+    const [ usernameFormText, setUsernameFormText ] = useState(defaultFormText);
+    const [ mottoFormText, setMottoFormText ] = useState(defaultFormText);
+    const [ locationFormText, setLocationFormText ] = useState(defaultFormText);
 
-    const handleChangeUsername = async (e) => {
+    const handleChangeUsername = async e => {
 
         e.preventDefault();
         const newUsername = username.value;
@@ -74,7 +74,7 @@ export const Settings = () => {
     
     };
 
-    const handleChangeMotto = async (e) => {
+    const handleChangeMotto = async e => {
 
         e.preventDefault();
         const newMotto = motto.value;
@@ -121,7 +121,7 @@ export const Settings = () => {
     
     };
 
-    const handleChangeLocation = async (e) => {
+    const handleChangeLocation = async e => {
 
         e.preventDefault();
         const newLocation = userLocation.value;
@@ -258,8 +258,8 @@ export const Settings = () => {
             formText={usernameFormText}
             id="change-username"
             label="Change Username"
-            onClick={(e) => handleChangeUsername(e)}
-            ref={(el) => (username = el)}
+            onClick={e => handleChangeUsername(e)}
+            ref={el => (username = el)}
             disabled={isPublicAccount}
           />
           <UserInfoUpdateForm
@@ -268,9 +268,9 @@ export const Settings = () => {
             formText={mottoFormText}
             id="change-motto"
             label="Change Motto"
-            onClick={(e) => handleChangeMotto(e)}
+            onClick={e => handleChangeMotto(e)}
             placeholder={credentials.motto ? null : 'enter your motto'}
-            ref={(el) => (motto = el)}
+            ref={el => (motto = el)}
             disabled={isPublicAccount}
           />
           <UserInfoUpdateForm
@@ -279,9 +279,9 @@ export const Settings = () => {
             formText={locationFormText}
             id="change-location"
             label="Change Location"
-            onClick={(e) => handleChangeLocation(e)}
+            onClick={e => handleChangeLocation(e)}
             placeholder={credentials.location ? null : 'enter your location'}
-            ref={(el) => (userLocation = el)}
+            ref={el => (userLocation = el)}
             disabled={isPublicAccount}
           />
         </Col>

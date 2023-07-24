@@ -12,11 +12,11 @@ export const Dashboard = () => {
     const user = useUserInfo();
     const history = useHistory();
     const billboardTitle = useBillboardTitle();
-    const [scrollOffset, setScrollOffset] = useState(0);
+    const [ scrollOffset, setScrollOffset ] = useState(0);
 
     const isMobile = window.innerWidth <= 1200;
 
-    const handleChangeBillboardTitle = (title) => {
+    const handleChangeBillboardTitle = title => {
 
         GlobalContext.setBillboardTitle(title);
     
@@ -28,7 +28,7 @@ export const Dashboard = () => {
     
     };
 
-    const handleToggleFavorite = async (titleId) => {
+    const handleToggleFavorite = async titleId => {
 
         const response = await toggleFavorite({
             titleId,
@@ -44,7 +44,7 @@ export const Dashboard = () => {
 
                 GlobalContext.setBillboardTitle({
                     ...billboardTitle,
-                    favorite: response.list.find((item) => item.id === titleId).favorite,
+                    favorite: response.list.find(item => item.id === titleId).favorite,
                 });
             
             }
@@ -56,18 +56,18 @@ export const Dashboard = () => {
     const disablePageScroll = () => {
  
         document.body.style.width = 'calc(100% - 10px)';
-        document.body.style.overflow = 'hidden'
+        document.body.style.overflow = 'hidden';
     
-    }
+    };
 
     const enablePageScroll = () => {
 
         document.body.style.width = '100%';
-        document.body.style.overflow = 'auto'
+        document.body.style.overflow = 'auto';
     
-    }
+    };
 
-    const handleScroll = (e) => {
+    const handleScroll = e => {
 
         if (window.innerWidth <= 1200) return;
         const direction = e.deltaY > 0 ? 'up' : 'down';
@@ -85,7 +85,7 @@ export const Dashboard = () => {
         
         }
 
-    }
+    };
 
     return (
         <>
@@ -112,15 +112,15 @@ export const Dashboard = () => {
         <div className="card-container" onMouseEnter={disablePageScroll} onMouseLeave={enablePageScroll}>
          {!isMobile ?
           (
-            <div className="card-scroller" onWheel={ e => handleScroll(e)} style={{display: 'flex', transform: `translate3d(-${scrollOffset}px, 0, 0)`}}>
-              {user.list.map((title) => {
+            <div className="card-scroller" onWheel={ e => handleScroll(e)} style={{ display: 'flex', transform: `translate3d(-${scrollOffset}px, 0, 0)` }}>
+              {user.list.map(title => {
 
                 return (
                   <DashboardCard
                     key={title.id}
                     title={title}
                     onFavoriteToggle={handleToggleFavorite}
-                    onClick={(title) => handleChangeBillboardTitle(title)}
+                    onClick={title => handleChangeBillboardTitle(title)}
                   />
                 );
               
@@ -129,14 +129,14 @@ export const Dashboard = () => {
           ) 
           :
           (<>
-              {user.list.map((title) => {
+              {user.list.map(title => {
 
                 return (
                   <DashboardCard
                     key={title.id}
                     title={title}
                     onFavoriteToggle={handleToggleFavorite}
-                    onClick={(title) => handleChangeBillboardTitle(title)}
+                    onClick={title => handleChangeBillboardTitle(title)}
                   />
                 );
               

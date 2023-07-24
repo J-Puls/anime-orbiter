@@ -7,7 +7,7 @@ import { authenticateAndLogin, getUserInfo, navTo } from 'utils';
 
 export const Login = props => {
 
-    const [loading, setLoading] = useState(false);
+    const [ loading, setLoading ] = useState(false);
 
     const history = useHistory();
     const GlobalContext = useContext(GlobalAppContext);
@@ -15,7 +15,7 @@ export const Login = props => {
 
     let email, password;
 
-    const attemptLogin = async (e) => {
+    const attemptLogin = async e => {
 
         e.preventDefault();
 
@@ -30,7 +30,7 @@ export const Login = props => {
 
             const data = await authenticateAndLogin(userCredentials);
 
-            console.log(data)
+            console.log(data);
 
             if (data?.error) {
 
@@ -56,7 +56,7 @@ export const Login = props => {
                 });
 
                 window.sessionStorage.setItem('token', data.token);
-                setLoading(false)
+                setLoading(false);
 
                 navTo(history, GlobalContext, 'dashboard', 'overview');
 
@@ -77,7 +77,7 @@ export const Login = props => {
       <Form
         id="loginForm"
         className="justify-content-center flex-column auth-form"
-        onSubmit={(e) => attemptLogin(e)}
+        onSubmit={e => attemptLogin(e)}
       >
         <legend className="text-center h1">Log In</legend>
         <Form.Group>

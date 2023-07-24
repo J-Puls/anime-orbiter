@@ -9,6 +9,6 @@ export const Utils = ({ children }) => {
         <UtilsProvider value={context}>
             {children}
         </UtilsProvider>
-    )
+    );
 
-}
+};
