@@ -2,6 +2,9 @@
     "name": "anime-orbiter",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": "16.20.1"
+    },
     "dependencies": {
         "bootstrap": "^4.6.0",
         "firebase": "^8.2.5",
