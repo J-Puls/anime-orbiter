@@ -1,152 +1,184 @@
-import { useContext, useState } from "react";
-import { Button, Col, Container, Figure, Row } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import GlobalAppContext from "../../context/GlobalContext";
-import { useMessages, useUserInfo } from "../../context/hooks";
+import { useContext, useState } from 'react';
+import { Button, Col, Container, Figure, Row } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import GlobalAppContext from '../../context/GlobalContext';
+import { useMessages, useUserInfo } from '../../context/hooks';
 import {
-  attemptUpdateLocation,
-  attemptUpdateMotto,
-  attemptUpdateUsername,
-  deleteExistingUser,
-  navTo,
-} from "../../utils";
-import UserInfoUpdateForm from "../settings/UserInfoUpdateForm";
+    attemptUpdateLocation,
+    attemptUpdateMotto,
+    attemptUpdateUsername,
+    deleteExistingUser,
+    navTo,
+} from '../../utils';
+import UserInfoUpdateForm from '../settings/UserInfoUpdateForm';
 
 export const Settings = () => {
-  const GlobalContext = useContext(GlobalAppContext);
-  const history = useHistory();
-  const user = useUserInfo();
-  const messages = useMessages();
-  const { credentials } = user;
-  const defaultFormText = { message: "", type: null };
-  const token = window.sessionStorage.getItem("token");
-  let username, motto, userLocation;
 
-  const [usernameFormText, setUsernameFormText] = useState(defaultFormText);
-  const [mottoFormText, setMottoFormText] = useState(defaultFormText);
-  const [locationFormText, setLocationFormText] = useState(defaultFormText);
+    const GlobalContext = useContext(GlobalAppContext);
+    const history = useHistory();
+    const user = useUserInfo();
+    const messages = useMessages();
+    const { credentials } = user;
+    const defaultFormText = { message: '', type: null };
+    const token = window.sessionStorage.getItem('token');
+    let username, motto, userLocation;
 
-  const handleChangeUsername = async (e) => {
-    e.preventDefault();
-    const newUsername = username.value;
-    if (newUsername === credentials.username) {
-      setUsernameFormText({
-        message: "This is already your username!",
-        type: "danger",
-      });
-    } else {
-      const response = await attemptUpdateUsername({
-        currentUsername: credentials.username,
-        newUsername,
-        token,
-        uid: credentials.uid,
-      });
+    const [usernameFormText, setUsernameFormText] = useState(defaultFormText);
+    const [mottoFormText, setMottoFormText] = useState(defaultFormText);
+    const [locationFormText, setLocationFormText] = useState(defaultFormText);
 
-      if (response.type === "success") {
-        setUsernameFormText({
-          message: response.message,
-          type: response.type,
-        });
-        GlobalContext.setUser({
-          ...user,
-          credentials: {
-            ...credentials,
-            username: response.username,
-          },
-        });
-      } else {
-        setUsernameFormText({
-          message: response.error,
-          type: response.type,
-        });
-      }
-    }
-  };
+    const handleChangeUsername = async (e) => {
 
-  const handleChangeMotto = async (e) => {
-    e.preventDefault();
-    const newMotto = motto.value;
-    const currentMotto = credentials.motto;
-    if (newMotto === currentMotto) {
-      setMottoFormText({
-        message: "This is already your motto!",
-        type: "danger",
-      });
-    } else {
-      const response = await attemptUpdateMotto({
-        currentMotto,
-        newMotto,
-        token,
-        uid: credentials.uid,
-      });
-      if (response.type === "success") {
-        setMottoFormText({
-          message: response.message,
-          type: response.type,
-        });
-        GlobalContext.setUser({
-          ...user,
-          credentials: {
-            ...credentials,
-            motto: response.motto,
-          },
-        });
-      } else {
-        setMottoFormText({
-          message: response.error,
-          type: response.type,
-        });
-      }
-    }
-  };
+        e.preventDefault();
+        const newUsername = username.value;
+        if (newUsername === credentials.username) {
 
-  const handleChangeLocation = async (e) => {
-    e.preventDefault();
-    const newLocation = userLocation.value;
-    const currentLocation = credentials.location;
-    if (newLocation === currentLocation) {
-      setLocationFormText({
-        message: "This is already your location!",
-        type: "danger",
-      });
-    } else {
-      const response = await attemptUpdateLocation({
-        currentLocation,
-        newLocation,
-        token,
-        uid: credentials.uid,
-      });
-      if (response.type === "success") {
-        setLocationFormText({
-          message: response.message,
-          type: response.type,
-        });
-        GlobalContext.setUser({
-          ...user,
-          credentials: {
-            ...credentials,
-            location: response.location,
-          },
-        });
-      } else {
-        setLocationFormText({
-          message: response.error,
-          type: response.type,
-        });
-      }
-    }
-  };
+            setUsernameFormText({
+                message: 'This is already your username!',
+                type: 'danger',
+            });
+        
+        } else {
 
-  const setModalInfoDelete = () => {
-    GlobalContext.setModalInfo({
-      title: "Delete Account",
-      body: `<p class="text-center">
+            const response = await attemptUpdateUsername({
+                currentUsername: credentials.username,
+                newUsername,
+                token,
+                uid: credentials.uid,
+            });
+
+            if (response.type === 'success') {
+
+                setUsernameFormText({
+                    message: response.message,
+                    type: response.type,
+                });
+                GlobalContext.setUser({
+                    ...user,
+                    credentials: {
+                        ...credentials,
+                        username: response.username,
+                    },
+                });
+            
+            } else {
+
+                setUsernameFormText({
+                    message: response.error,
+                    type: response.type,
+                });
+            
+            }
+        
+        }
+    
+    };
+
+    const handleChangeMotto = async (e) => {
+
+        e.preventDefault();
+        const newMotto = motto.value;
+        const currentMotto = credentials.motto;
+        if (newMotto === currentMotto) {
+
+            setMottoFormText({
+                message: 'This is already your motto!',
+                type: 'danger',
+            });
+        
+        } else {
+
+            const response = await attemptUpdateMotto({
+                currentMotto,
+                newMotto,
+                token,
+                uid: credentials.uid,
+            });
+            if (response.type === 'success') {
+
+                setMottoFormText({
+                    message: response.message,
+                    type: response.type,
+                });
+                GlobalContext.setUser({
+                    ...user,
+                    credentials: {
+                        ...credentials,
+                        motto: response.motto,
+                    },
+                });
+            
+            } else {
+
+                setMottoFormText({
+                    message: response.error,
+                    type: response.type,
+                });
+            
+            }
+        
+        }
+    
+    };
+
+    const handleChangeLocation = async (e) => {
+
+        e.preventDefault();
+        const newLocation = userLocation.value;
+        const currentLocation = credentials.location;
+        if (newLocation === currentLocation) {
+
+            setLocationFormText({
+                message: 'This is already your location!',
+                type: 'danger',
+            });
+        
+        } else {
+
+            const response = await attemptUpdateLocation({
+                currentLocation,
+                newLocation,
+                token,
+                uid: credentials.uid,
+            });
+            if (response.type === 'success') {
+
+                setLocationFormText({
+                    message: response.message,
+                    type: response.type,
+                });
+                GlobalContext.setUser({
+                    ...user,
+                    credentials: {
+                        ...credentials,
+                        location: response.location,
+                    },
+                });
+            
+            } else {
+
+                setLocationFormText({
+                    message: response.error,
+                    type: response.type,
+                });
+            
+            }
+        
+        }
+    
+    };
+
+    const setModalInfoDelete = () => {
+
+        GlobalContext.setModalInfo({
+            title: 'Delete Account',
+            body: `<p class="text-center">
           Are you sure you want to delete your account?
           <br />
           <strong class="text-danger">This cannot be undone!</strong>
         </p>`,
-      footer: (
-        <>
+            footer: (
+                <>
           <Button variant="outline-danger" onClick={handleDeleteAccount}>
             Confirm
           </Button>
@@ -156,39 +188,44 @@ export const Settings = () => {
           >
             Cancel
           </Button>
-        </>
-      ),
-    });
-    GlobalContext.setModalVisible(true);
-  };
-
-  const handleDeleteAccount = async () => {
-    const data = {
-      username: credentials.username,
-      uid: credentials.uid,
-      token,
+                </>
+            ),
+        });
+        GlobalContext.setModalVisible(true);
+    
     };
 
-    const response = await deleteExistingUser(data);
-    if (response.type === "success") {
-      navTo(history, GlobalContext, "", "landing");
-      window.sessionStorage.clear();
-      GlobalContext.setUser({});
-    }
-    GlobalContext.setMessages([
-      ...messages,
-      {
-        type: response.type,
-        message:
-          response.type === "success" ? response.message : response.error,
-      },
-    ]);
-  };
+    const handleDeleteAccount = async () => {
 
-  const isPublicAccount =
+        const data = {
+            username: credentials.username,
+            uid: credentials.uid,
+            token,
+        };
+
+        const response = await deleteExistingUser(data);
+        if (response.type === 'success') {
+
+            navTo(history, GlobalContext, '', 'landing');
+            window.sessionStorage.clear();
+            GlobalContext.setUser({});
+        
+        }
+        GlobalContext.setMessages([
+            ...messages,
+            {
+                type: response.type,
+                message:
+          response.type === 'success' ? response.message : response.error,
+            },
+        ]);
+    
+    };
+
+    const isPublicAccount =
     credentials.uid === process.env.REACT_APP_PUBLIC_USER_UID;
 
-  return (
+    return (
     <Container className="settings">
       <Row className="justify-content-center" noGutters>
         <Col xs={6} className="d-flex justify-content-around">
@@ -200,13 +237,13 @@ export const Settings = () => {
               {credentials.email}
               <br />
               <span>
-                {credentials.motto ? credentials.motto : "No Motto Set"}
+                {credentials.motto ? credentials.motto : 'No Motto Set'}
               </span>
               <br />
               <span>
                 {credentials.location
                   ? credentials.location
-                  : "No Location Set"}
+                  : 'No Location Set'}
               </span>
             </Figure.Caption>
           </Figure>
@@ -232,7 +269,7 @@ export const Settings = () => {
             id="change-motto"
             label="Change Motto"
             onClick={(e) => handleChangeMotto(e)}
-            placeholder={credentials.motto ? null : "enter your motto"}
+            placeholder={credentials.motto ? null : 'enter your motto'}
             ref={(el) => (motto = el)}
             disabled={isPublicAccount}
           />
@@ -243,7 +280,7 @@ export const Settings = () => {
             id="change-location"
             label="Change Location"
             onClick={(e) => handleChangeLocation(e)}
-            placeholder={credentials.location ? null : "enter your location"}
+            placeholder={credentials.location ? null : 'enter your location'}
             ref={(el) => (userLocation = el)}
             disabled={isPublicAccount}
           />
@@ -266,7 +303,8 @@ export const Settings = () => {
         </Col>
       </Row>
     </Container>
-  );
+    );
+
 };
 
 export default Settings;

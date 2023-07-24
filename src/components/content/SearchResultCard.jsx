@@ -1,62 +1,77 @@
-import { useContext } from "react";
-import { Button } from "react-bootstrap";
-import GlobalAppContext from "../../context/GlobalContext";
-import { useUserInfo } from "../../context/hooks";
-import { addTitle } from "../../utils";
+import { useContext } from 'react';
+import { Button } from 'react-bootstrap';
+import GlobalAppContext from '../../context/GlobalContext';
+import { useUserInfo } from '../../context/hooks';
+import { addTitle } from '../../utils';
 
 export const SearchResultCard = (props) => {
-  const title = props.title;
-  const GlobalContext = useContext(GlobalAppContext);
-  const user = useUserInfo();
-  const isInList = () => {
-    for (const entry of user.list) {
-      if (entry.id === title.id) {
-        return true;
-      }
-    }
-    return false;
-  };
 
-  const handleSave = async () => {
-    if (isInList()) {
-      alert("This title is already in your list!");
-      return;
-    }
+    const title = props.title;
+    const GlobalContext = useContext(GlobalAppContext);
+    const user = useUserInfo();
+    const isInList = () => {
 
-    const response = await addTitle({
-      token: window.sessionStorage.getItem("token"),
-      title,
-      uid: user.credentials.uid,
-    });
-    GlobalContext.setUser({
-      ...user,
-      list: response.list.reverse(),
-    });
-    GlobalContext.setBillboardTitle(response.list[0] || null);
-  };
+        for (const entry of user.list) {
 
-  const handleCloseModal = () => {
-    GlobalContext.resetModalAndClose();
-  };
-  const setModalInfoAbout = () => {
-    GlobalContext.setModalInfo({
-      title: title.name,
-      body: title.summary,
-      footer: (
+            if (entry.id === title.id) {
+
+                return true;
+            
+            }
+        
+        }
+        return false;
+    
+    };
+
+    const handleSave = async () => {
+
+        if (isInList()) {
+
+            alert('This title is already in your list!');
+            return;
+        
+        }
+
+        const response = await addTitle({
+            token: window.sessionStorage.getItem('token'),
+            title,
+            uid: user.credentials.uid,
+        });
+        GlobalContext.setUser({
+            ...user,
+            list: response.list.reverse(),
+        });
+        GlobalContext.setBillboardTitle(response.list[0] || null);
+    
+    };
+
+    const handleCloseModal = () => {
+
+        GlobalContext.resetModalAndClose();
+    
+    };
+    const setModalInfoAbout = () => {
+
+        GlobalContext.setModalInfo({
+            title: title.name,
+            body: title.summary,
+            footer: (
         <Button variant="outline-secondary" onClick={handleCloseModal}>
           Close
         </Button>
-      ),
-    });
-    GlobalContext.setModalVisible(true);
-  };
+            ),
+        });
+        GlobalContext.setModalVisible(true);
+    
+    };
 
-  return (
+    return (
     <div
       style={{
         backgroundImage: `url("${title.image.medium.replace(
-          "http://",
-          "https://"
+          'http://',
+          'https://'
         )}")`,
       }}
       className="title-card search-result position-relative m-1 rounded"
@@ -89,7 +104,8 @@ export const SearchResultCard = (props) => {
         )}
       </div>
     </div>
-  );
+    );
+
 };
 
 export default SearchResultCard;

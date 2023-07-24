@@ -1,92 +1,67 @@
-const { db } = require("./util/admin");
-const firebase = require("firebase");
-const config = require("./util/config");
-const { fResponse } = require("./util/fResponse");
-const fbAuth = require("./util/fbAuth");
-const rr = require("rainbow-road");
-const { reduceUsername } = require("./util/validators");
+const verifyAuthentication = require('./middleware/verifyAuthentication');
+const { reduceUsername } = require('./util/validators');
+const { fResponse } = require('./util/fResponse');
+const config = require('./util/config');
+const { db } = require('./util/admin');
+const firebase = require('firebase');
+const rr = require('rainbow-road');
 
 if (!firebase.apps.length) firebase.initializeApp(config);
 
-exports.handler = async (req, res) => {
-  if (req.headers.uid === process.env.REACT_APP_PUBLIC_USER_UID) {
-    rr.err("Cannot Modify Public Account.");
-    return fResponse(403, {
-      type: "danger",
-      error:
-        "Sorry, modifications are not allowed to the 'Public User' account!",
-    });
-  }
+exports.handler = async req => {
 
-  const isAuthenticated = await fbAuth(req);
-  if (!isAuthenticated) {
-    rr.err("Authentication Failed.");
-    return fResponse(403, { type: "danger", error: "Authentication Failed" });
-  }
+    if (req.headers.uid === process.env.REACT_APP_PUBLIC_USER_UID) {
 
-  const requestBody = JSON.parse(req.body);
+        rr.err('Cannot Modify Public Account.');
+        return fResponse(403, {
+            type: 'danger',
+            error: 'Sorry, modifications are not allowed to the \'Public User\' account!'
+        });
+    
+    }
 
-  const nameInUse = await db
-    .collection("/users/")
-    .where("username", "==", requestBody.newUsername)
-    .get()
-    .then((data) => {
-      if (data.docs.length > 0) return true;
-      return false;
-    });
+    verifyAuthentication(req);
 
-  if (nameInUse) {
-    rr.err("Username Already Taken!");
-    return fResponse(500, {
-      type: "danger",
-      error: "This username is already taken!",
-    });
-  }
+    try {
 
-  if (requestBody.newUsername === requestBody.currentUsername) {
-    rr.err("New username cannot be the same as current username!");
-    return fResponse(500, {
-      type: "danger",
-      error: "New username cannot be the same as current username!",
-    });
-  }
+        const request = JSON.parse(req.body);
 
-  if (requestBody.newUsername.length <= 5) {
-    rr.err("New username too short!");
-    return fResponse(500, {
-      type: "danger",
-      error: "New username must be at least 5 characters long!",
-    });
-  }
+        const user_data = await db
+            .collection('/users/')
+            .where('username', '==', request.newUsername)
+            .get();
 
-  const newUsername = reduceUsername(requestBody.newUsername);
+        const name_exists = !!user_data?.docs?.[0];
 
-  if (!newUsername)
-    return fResponse(500, {
-      type: "danger",
-      error: "Username missing from request body!",
-    });
+        if (name_exists) throw 'This username is already taken!';
 
-  const response = db
-    .doc(`/users/${req.headers.uid}`)
-    .update({ username: newUsername })
-    .then(() => {
-      rr.succ(`Username Changed Successfully!
-          old: ${requestBody.currentUsername}
-          new: ${newUsername}
-          `);
-      return fResponse(200, {
-        type: "success",
-        message: "Username updated successfully.",
-        username: newUsername,
-      });
-    })
-    .catch((err) => {
-      rr.err(`${err}`);
-      return fResponse(500, {
-        type: "danger",
-        error: err,
-      });
-    });
-  return response;
+        const newUsername = reduceUsername(request.newUsername);
+
+        if (!newUsername) throw 'No username supplied.';
+
+        if (request.newUsername === request.currentUsername)
+            throw 'New username cannot be the same as current username!';
+
+        if (request.newUsername.length <= 5)
+            throw 'New username must be at least 5 characters long!';
+
+        await db
+            .doc(`/users/${req.headers.uid}`)
+            .update({ username: newUsername });
+        rr.succ('Username Changed Successfully!');
+        return fResponse(200, {
+            type: 'success',
+            message: 'Username updated successfully.',
+            username: newUsername
+        });
+    
+    } catch (err) {
+
+        return fResponse(500, {
+            type: 'danger',
+            error: err?.message || err
+        });
+    
+    }
+
 };
