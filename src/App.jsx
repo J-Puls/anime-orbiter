@@ -7,6 +7,7 @@ import { Utils } from 'helpers/Utils';
 import Views from 'views';
 
 export const App = props => {
+
     const storedUser = JSON.parse(window.sessionStorage.getItem('user'));
     const defaultModalInfo = { title: null, body: null, footer: null };
 
@@ -25,22 +26,30 @@ export const App = props => {
     );
 
     useEffect(() => {
+
         setMessagesVisible(messages.length > 0);
+    
     }, [messages]);
 
     useEffect(() => {
+
         if (!billboardTitle && user?.list?.length)
             setBillboardTitle(user.list[0]);
+    
     }, [user.list, billboardTitle]);
 
     const resetModalAndClose = () => {
+
         setModalVisible(false);
         setModalInfo(defaultModalInfo);
+    
     };
 
     const removeMessage = message => {
+
         const filteredMessages = messages.filter((ind, val) => val === message);
         setMessages(filteredMessages);
+    
     };
 
     const context = {
@@ -103,6 +112,7 @@ export const App = props => {
             </Utils>
         </GlobalAppProvider>
     );
+
 };
 
 export default App;

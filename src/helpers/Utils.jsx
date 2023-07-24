@@ -1,5 +1,5 @@
-import React from "react";
-import { UtilsProvider } from "context/UtilsContext";
+import React from 'react';
+import { UtilsProvider } from 'context/UtilsContext';
 
 export const Utils = ({ children }) => {
 

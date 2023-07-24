@@ -1,7 +1,7 @@
-import { createContext, useContext } from "react";
+import { createContext, useContext } from 'react';
 
 export const UtilsContext = createContext({
-  displayName: "UtilsContext",
+    displayName: 'UtilsContext',
 });
 
 export const UtilsConsumer = UtilsContext.Consumer;

@@ -1,31 +1,38 @@
-import { useContext } from "react";
-import { Dropdown, Navbar } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import GlobalAppContext from "../../context/GlobalContext";
-import { useUserInfo } from "../../context/hooks";
-import { navTo } from "../../utils";
+import { useContext } from 'react';
+import { Dropdown, Navbar } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import GlobalAppContext from '../../context/GlobalContext';
+import { useUserInfo } from '../../context/hooks';
+import { navTo } from '../../utils';
 
 export const MainNavbar = () => {
-  const GlobalContext = useContext(GlobalAppContext);
-  const history = useHistory();
-  const user = useUserInfo();
 
-  const handleLogout = () => {
-    GlobalContext.setUser({ credentials: {}, list: [] });
-    GlobalContext.setBillboardTitle(null);
-    window.sessionStorage.clear();
-    navTo(history, GlobalContext, "", "landing");
-  };
+    const GlobalContext = useContext(GlobalAppContext);
+    const history = useHistory();
+    const user = useUserInfo();
 
-  const handleDashboardNav = () => {
-    navTo(history, GlobalContext, "dashboard", "overview");
-  };
+    const handleLogout = () => {
 
-  const handleSettingsNav = () => {
-    navTo(history, GlobalContext, "dashboard", "settings");
-  };
+        GlobalContext.setUser({ credentials: {}, list: [] });
+        GlobalContext.setBillboardTitle(null);
+        window.sessionStorage.clear();
+        navTo(history, GlobalContext, '', 'landing');
+    
+    };
 
-  return (
+    const handleDashboardNav = () => {
+
+        navTo(history, GlobalContext, 'dashboard', 'overview');
+    
+    };
+
+    const handleSettingsNav = () => {
+
+        navTo(history, GlobalContext, 'dashboard', 'settings');
+    
+    };
+
+    return (
     <Navbar variant="dark" id="navbar" expand="xs" className="navbar">
       <Navbar.Brand className="slide-in-right h-100">
         Anime Orbiter
@@ -59,7 +66,8 @@ export const MainNavbar = () => {
         </>
       )}
     </Navbar>
-  );
+    );
+
 };
 
 export default MainNavbar;

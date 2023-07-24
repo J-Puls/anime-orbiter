@@ -8,9 +8,11 @@ const rr = require('rainbow-road');
 if (!firebase.apps.length) firebase.initializeApp(config);
 
 exports.handler = async req => {
+
     verifyAuthentication(req);
 
     try {
+
         let responseData = {};
         const uid = req?.headers?.uid;
 
@@ -41,11 +43,15 @@ exports.handler = async req => {
             credentials: user_doc?.data?.(),
             list
         });
+    
     } catch (err) {
+
         rr.err(`${err}`);
         return fResponse(500, {
             type: 'danger',
             error: `An error occurred: ${err?.message || err}`
         });
+    
     }
+
 };

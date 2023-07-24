@@ -8,17 +8,21 @@ const rr = require('rainbow-road');
 if (!firebase.apps.length) firebase.initializeApp(config);
 
 exports.handler = async req => {
+
     if (req.headers.uid === process.env.REACT_APP_PUBLIC_USER_UID) {
+
         rr.err('Cannot Delete Public Account.');
         return fResponse(403, {
             type: 'danger',
-            error: "Nice try, you're not allowed to delete the 'Public User' account!"
+            error: 'Nice try, you\'re not allowed to delete the \'Public User\' account!'
         });
+    
     }
 
     verifyAuthentication(req);
 
     try {
+
         const data = JSON.parse(req.body);
         const { uid } = data;
 
@@ -46,7 +50,11 @@ exports.handler = async req => {
             message: 'Account and all associated data deleted.',
             type: 'success'
         });
+    
     } catch (err) {
+
         return fResponse(500, { error: err?.message || err, type: 'error' });
+    
     }
+
 };

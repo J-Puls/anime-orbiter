@@ -8,9 +8,11 @@ const rr = require('rainbow-road');
 if (!firebase.apps.length) firebase.initializeApp(config);
 
 exports.handler = async req => {
+
     verifyAuthentication(req);
 
     try {
+
         const { titleId, uid } = JSON.parse(req.body);
 
         const user_list = await db
@@ -41,7 +43,11 @@ exports.handler = async req => {
             message: 'Title updated successfully!',
             list
         });
+    
     } catch (err) {
+
         return fResponse(500, { type: 'danger', error: err?.message || err });
+    
     }
+
 };

@@ -1,6 +1,7 @@
 import makeRequest from '../general/makeRequest';
 
 export const getUserList = async data => {
+
     const url = '/api/getListByOwner';
     const options = {
         method: 'POST',
@@ -13,6 +14,7 @@ export const getUserList = async data => {
     };
 
     return await makeRequest(url, options);
+
 };
 
 export default getUserList;

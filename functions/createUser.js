@@ -10,7 +10,9 @@ const DEFAULT_IMG_URL = `https://firebasestorage.googleapis.com/v0/b/${config.st
 if (!firebase.apps.length) firebase.initializeApp(config);
 
 exports.handler = async req => {
+
     try {
+
         const { username, email, password, confirmPassword } = JSON.parse(
             req.body
         );
@@ -22,7 +24,7 @@ exports.handler = async req => {
 
         const account_exists = account_data.docs?.[0];
 
-        if (!!account_exists)
+        if (account_exists)
             return fResponse(400, {
                 type: 'danger',
                 error: 'This username is already taken!'
@@ -41,7 +43,7 @@ exports.handler = async req => {
             });
 
         rr.info(`${credentials.user}`);
-        rr.succ(`Account created successfully with the above credentials`);
+        rr.succ('Account created successfully with the above credentials');
 
         const payload = {
             username,
@@ -77,7 +79,7 @@ exports.handler = async req => {
 
         await db.collection('user_lists').add(list);
 
-        rr.succ(`User List Created Successfully!`);
+        rr.succ('User List Created Successfully!');
 
         const token = await credentials.user.getIdToken();
 
@@ -87,7 +89,11 @@ exports.handler = async req => {
             credentials: profileInfo,
             token
         });
+    
     } catch (err) {
+
         return fResponse(500, { type: 'danger', error: err?.message || err });
+    
     }
+
 };

@@ -1,76 +1,78 @@
-import { useContext, useState } from "react";
-import { Button, Container, Form, Spinner } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import GlobalAppContext from "context/GlobalContext";
-import { useMessages } from "context/hooks";
-import { authenticateAndLogin, getUserInfo, navTo } from "utils";
+import { useContext, useState } from 'react';
+import { Button, Container, Form, Spinner } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import GlobalAppContext from 'context/GlobalContext';
+import { useMessages } from 'context/hooks';
+import { authenticateAndLogin, getUserInfo, navTo } from 'utils';
 
 export const Login = props => {
 
-  const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(false);
 
-  const history = useHistory();
-  const GlobalContext = useContext(GlobalAppContext);
-  const messages = useMessages();
+    const history = useHistory();
+    const GlobalContext = useContext(GlobalAppContext);
+    const messages = useMessages();
 
-  let email, password;
+    let email, password;
 
-  const attemptLogin = async (e) => {
+    const attemptLogin = async (e) => {
 
-    e.preventDefault();
+        e.preventDefault();
 
-    const userCredentials = {
-      email: email.value,
-      password: password.value,
+        const userCredentials = {
+            email: email.value,
+            password: password.value,
+        };
+
+        try {
+
+            setLoading(true);
+
+            const data = await authenticateAndLogin(userCredentials);
+
+            console.log(data)
+
+            if (data?.error) {
+
+                GlobalContext.setMessages([
+                    ...messages,
+                    { message: data.error, dismissed: false, type: data.type },
+                ]);
+
+                setLoading(false);
+                throw Error(data.error);
+
+            } else {
+
+                const response = await getUserInfo({
+                    token: data.token,
+                    username: data.username,
+                    uid: data.uid,
+                });
+
+                GlobalContext.setUser({
+                    credentials: response.credentials,
+                    list: response.list.reverse(),
+                });
+
+                window.sessionStorage.setItem('token', data.token);
+                setLoading(false)
+
+                navTo(history, GlobalContext, 'dashboard', 'overview');
+
+            }
+    
+        } catch (err) {
+
+            console.error(err);
+
+        }
+  
     };
 
-    try {
+    const handleSignUpClick = () => navTo(history, GlobalContext, 'authentication', 'sign_up');
 
-      setLoading(true);
-
-      const data = await authenticateAndLogin(userCredentials);
-
-      console.log(data)
-
-      if (!!data?.error) {
-
-        GlobalContext.setMessages([
-          ...messages,
-          { message: data.error, dismissed: false, type: data.type },
-        ]);
-
-        setLoading(false);
-        throw Error(data.error);
-
-      } else {
-
-        const response = await getUserInfo({
-          token: data.token,
-          username: data.username,
-          uid: data.uid,
-        });
-
-        GlobalContext.setUser({
-          credentials: response.credentials,
-          list: response.list.reverse(),
-        });
-
-        window.sessionStorage.setItem("token", data.token);
-        setLoading(false)
-
-        navTo(history, GlobalContext, "dashboard", "overview");
-
-      }
-    } catch (err) {
-
-      console.error(err);
-
-    }
-  };
-
-  const handleSignUpClick = () => navTo(history, GlobalContext, "authentication", "sign_up");
-
-  return (
+    return (
     <Container>
       <Form
         id="loginForm"
@@ -119,13 +121,12 @@ export const Login = props => {
                 <Spinner animation='border' size='sm' className="m-2" />
               </>
 
-
             )
           }
         </Button>
 
         <small>
-          Need an account?{" "}
+          Need an account?{' '}
           <Button
             variant="link"
             size="sm"
@@ -141,13 +142,13 @@ export const Login = props => {
         </p>
         <ul className="list-group list-group-flush ">
           <li className="list-group-item bg-transparent">
-            <strong>Email:</strong>{" "}
+            <strong>Email:</strong>{' '}
             <span className="text-warning">
               {process.env.REACT_APP_PUBLIC_USER_EMAIL}
             </span>
           </li>
           <li className="list-group-item bg-transparent">
-            <strong>Password:</strong>{" "}
+            <strong>Password:</strong>{' '}
             <span className="text-warning">
               {process.env.REACT_APP_PUBLIC_USER_PASSWORD}
             </span>
@@ -155,7 +156,8 @@ export const Login = props => {
         </ul>
       </Form>
     </Container>
-  );
+    );
+
 };
 
 export default Login;

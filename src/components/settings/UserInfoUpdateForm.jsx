@@ -1,9 +1,10 @@
-import { forwardRef } from "react";
-import { Button, Form, InputGroup } from "react-bootstrap";
+import { forwardRef } from 'react';
+import { Button, Form, InputGroup } from 'react-bootstrap';
 
 export const UserInfoUpdateForm = forwardRef((props, ref) => {
-  return (
-    <>
+
+    return (
+        <>
       <label htmlFor={props.id} className="lead">
         {props.label}
       </label>
@@ -32,8 +33,9 @@ export const UserInfoUpdateForm = forwardRef((props, ref) => {
           {props.formText.message}
         </Form.Text>
       )}
-    </>
-  );
+        </>
+    );
+
 });
 
 export default UserInfoUpdateForm;

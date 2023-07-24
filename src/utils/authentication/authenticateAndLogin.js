@@ -1,7 +1,9 @@
 import { err } from 'rainbow-road';
 
 export const authenticateAndLogin = async data => {
+
     try {
+
         const url = '/api/loginUser/';
         const options = {
             method: 'POST',
@@ -15,9 +17,13 @@ export const authenticateAndLogin = async data => {
 
         const response = await fetch(url, options);
         return await response.json();
+    
     } catch (e) {
+
         err(e?.message || e);
+    
     }
+
 };
 
 export default authenticateAndLogin;

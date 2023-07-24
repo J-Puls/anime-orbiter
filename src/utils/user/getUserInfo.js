@@ -1,6 +1,7 @@
 import makeRequest from '../general/makeRequest';
 
 export const getUserInfo = async data => {
+
     const url = '/api/getUserDetails';
     const options = {
         method: 'GET',
@@ -14,6 +15,7 @@ export const getUserInfo = async data => {
     };
 
     return await makeRequest(url, options);
+
 };
 
 export default getUserInfo;
