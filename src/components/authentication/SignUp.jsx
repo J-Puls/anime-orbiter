@@ -1,65 +1,82 @@
-import React, { useContext } from "react";
-import { Button, Container, Form } from "react-bootstrap";
-import { useHistory } from "react-router-dom";
-import GlobalAppContext from "../../context/GlobalContext";
-import { useMessages } from "../../context/hooks";
-import { navTo, signUpNewUser } from "../../utils";
+import React, { useContext } from 'react';
+import { Button, Container, Form } from 'react-bootstrap';
+import { useHistory } from 'react-router-dom';
+import GlobalAppContext from '../../context/GlobalContext';
+import { useMessages } from '../../context/hooks';
+import { navTo, signUpNewUser } from '../../utils';
 
 export const SignUp = (props) => {
-  const GlobalContext = useContext(GlobalAppContext);
-  const history = useHistory();
-  const messages = useMessages();
-  let username, email, password, confirmPassword;
 
-  const attemptSignup = async (e) => {
-    e.preventDefault();
-    const credentials = {
-      username: username.value,
-      email: email.value,
-      password: password.value,
-      confirmPassword: confirmPassword.value,
-    };
-    if (credentials.password !== credentials.confirmPassword) {
-      GlobalContext.setMessages([
-        ...messages,
-        {
-          error: "Password and Confirm Password fields must be identical!",
-          type: "error",
-          dismissed: false,
-        },
-      ]);
-    } else {
-      try {
-        const data = await signUpNewUser(credentials);
-        if (data.error) {
-          GlobalContext.setMessages([
-            ...messages,
-            { message: data.error, dismissed: false, type: data.type },
-          ]);
-          throw Error(data.error);
+    const GlobalContext = useContext(GlobalAppContext);
+    const history = useHistory();
+    const messages = useMessages();
+    let username, email, password, confirmPassword;
+
+    const attemptSignup = async (e) => {
+
+        e.preventDefault();
+        const credentials = {
+            username: username.value,
+            email: email.value,
+            password: password.value,
+            confirmPassword: confirmPassword.value,
+        };
+        if (credentials.password !== credentials.confirmPassword) {
+
+            GlobalContext.setMessages([
+                ...messages,
+                {
+                    error: 'Password and Confirm Password fields must be identical!',
+                    type: 'error',
+                    dismissed: false,
+                },
+            ]);
+        
         } else {
-          GlobalContext.setMessages([
-            ...messages,
-            { message: data.message, type: data.type, dismissed: false },
-          ]);
-          GlobalContext.setUser({
-            credentials: { ...data.credentials },
-            list: [],
-          });
-          window.sessionStorage.setItem("token", data.token);
-          navTo(history, GlobalContext, "dashboard", "overview");
+
+            try {
+
+                const data = await signUpNewUser(credentials);
+                if (data.error) {
+
+                    GlobalContext.setMessages([
+                        ...messages,
+                        { message: data.error, dismissed: false, type: data.type },
+                    ]);
+                    throw Error(data.error);
+                
+                } else {
+
+                    GlobalContext.setMessages([
+                        ...messages,
+                        { message: data.message, type: data.type, dismissed: false },
+                    ]);
+                    GlobalContext.setUser({
+                        credentials: { ...data.credentials },
+                        list: [],
+                    });
+                    window.sessionStorage.setItem('token', data.token);
+                    navTo(history, GlobalContext, 'dashboard', 'overview');
+                
+                }
+            
+            } catch (err) {
+
+                console.error(err);
+            
+            }
+        
         }
-      } catch (err) {
-        console.error(err);
-      }
-    }
-  };
+    
+    };
 
-  const handleLoginClick = () => {
-    navTo(history, GlobalContext, "authentication", "login");
-  };
+    const handleLoginClick = () => {
 
-  return (
+        navTo(history, GlobalContext, 'authentication', 'login');
+    
+    };
+
+    return (
     <Container>
       <Form
         id="signupForm"
@@ -117,7 +134,7 @@ export const SignUp = (props) => {
           Register
         </Button>
         <small>
-          Already have an account?{" "}
+          Already have an account?{' '}
           <Button
             variant="link"
             size="sm"
@@ -129,7 +146,8 @@ export const SignUp = (props) => {
         </small>
       </Form>
     </Container>
-  );
+    );
+
 };
 
 export default SignUp;

@@ -1,4 +1,4 @@
 exports.fResponse = (statusCode, options) => ({
-  statusCode,
-  body: JSON.stringify({ ...options }),
+    statusCode,
+    body: JSON.stringify({ ...options }),
 });

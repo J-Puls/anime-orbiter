@@ -1,14 +1,15 @@
-import { useContext } from "react";
-import { Modal } from "react-bootstrap";
-import GlobalAppContext from "../../context/GlobalContext";
-import { useModalInfo, useModalVisible } from "../../context/hooks";
+import { useContext } from 'react';
+import { Modal } from 'react-bootstrap';
+import GlobalAppContext from '../../context/GlobalContext';
+import { useModalInfo, useModalVisible } from '../../context/hooks';
 
 export const InfoModal = () => {
-  const GlobalContext = useContext(GlobalAppContext);
-  const modalVisible = useModalVisible();
-  const info = useModalInfo();
 
-  return (
+    const GlobalContext = useContext(GlobalAppContext);
+    const modalVisible = useModalVisible();
+    const info = useModalInfo();
+
+    return (
     <Modal
       show={modalVisible}
       backdrop="static"
@@ -25,7 +26,8 @@ export const InfoModal = () => {
       ></Modal.Body>
       <Modal.Footer>{info.footer}</Modal.Footer>
     </Modal>
-  );
+    );
+
 };
 
 export default InfoModal;

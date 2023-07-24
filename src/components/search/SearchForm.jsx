@@ -1,30 +1,41 @@
-import { useContext } from "react";
-import { Button, Col, Form, InputGroup } from "react-bootstrap";
-import GlobalAppContext from "../../context/GlobalContext";
-import { findTitles } from "../../utils";
+import { useContext } from 'react';
+import { Button, Col, Form, InputGroup } from 'react-bootstrap';
+import GlobalAppContext from '../../context/GlobalContext';
+import { findTitles } from '../../utils';
 
 export const SearchForm = (props) => {
-  const GlobalContext = useContext(GlobalAppContext);
-  let query;
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    const queryResults = await findTitles(query.value);
-    if (!queryResults.length > 0) {
-      alert("no results found");
-      return;
-    } else {
-      let filteredResults = [];
-      for (const result of queryResults) {
-        if (result.show.type === "Animation") {
-          filteredResults.push(result);
-        }
-      }
-      GlobalContext.setSearchResults(filteredResults);
-    }
-  };
 
-  return (
-    <>
+    const GlobalContext = useContext(GlobalAppContext);
+    let query;
+    const handleSubmit = async (e) => {
+
+        e.preventDefault();
+        const queryResults = await findTitles(query.value);
+        if (!queryResults.length > 0) {
+
+            alert('no results found');
+            return;
+        
+        } else {
+
+            let filteredResults = [];
+            for (const result of queryResults) {
+
+                if (result.show.type === 'Animation') {
+
+                    filteredResults.push(result);
+                
+                }
+            
+            }
+            GlobalContext.setSearchResults(filteredResults);
+        
+        }
+    
+    };
+
+    return (
+        <>
       <Col xs="12" md="8" className="mx-auto p-3 text-light mb-2 fade-in">
         <Form id="searchForm" onSubmit={(e) => handleSubmit(e)}>
           <InputGroup className="mb-3">
@@ -56,8 +67,9 @@ export const SearchForm = (props) => {
           </InputGroup>
         </Form>
       </Col>
-    </>
-  );
+        </>
+    );
+
 };
 
 export default SearchForm;

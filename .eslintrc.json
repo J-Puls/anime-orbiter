@@ -1,0 +1,40 @@
+{
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "prettier",
+        "plugin:jsx-a11y/recommended"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 8
+    },
+    "plugins": ["react", "react-hooks", "only-warn"],
+    "parser": "babel-eslint",
+    "env": {
+        "browser": true,
+        "node": true,
+        "es6": true,
+        "jest": true
+    },
+    "rules": {
+        "no-multiple-empty-lines": ["error", { "max": 1}],
+        "no-unused-vars": 0,
+        "quotes": ["error", "single"],
+        "padded-blocks": ["error", "always"],
+        "react/react-in-jsx-scope": 0,
+        "react-hooks/rules-of-hooks": "error",
+        "no-console": 0,
+        "react/state-in-constructor": 0,
+        "indent": ["error", 4, {"ignoredNodes": ["JSXElement", "JSXElement *"]}],
+        "linebreak-style": 0,
+        "react/prop-types": 0,
+       
+        "jsx-a11y/click-events-have-key-events": 0,
+        "react/jsx-filename-extension": [
+            1,
+            {
+                "extensions": [".js", ".jsx"]
+            }
+        ]
+    }
+}
